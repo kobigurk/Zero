@@ -1,7 +1,5 @@
-import type { MetadataRoute } from 'next';
-
-export default function manifest(): MetadataRoute.Manifest {
-  return {
+export function loader() {
+  return Response.json({
     name: 'Zero',
     short_name: '0',
     description: 'Zero - the first open source email app that puts your privacy and safety first.',
@@ -15,14 +13,12 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/icons-pwa/icon-512.png',
         sizes: '512x512',
         type: 'image/png',
-        // @ts-expect-error, not sure why error?
         purpose: 'any maskable',
       },
       {
         src: '/icons-pwa/icon-192.png',
         sizes: '192x192',
         type: 'image/png',
-        // @ts-expect-error, not sure why error?
         purpose: 'any maskable',
       },
       {
@@ -31,5 +27,5 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/png',
       },
     ],
-  };
+  });
 }

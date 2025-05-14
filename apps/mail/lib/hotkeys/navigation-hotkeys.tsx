@@ -1,20 +1,18 @@
-'use client';
-
 import { keyboardShortcuts } from '@/config/shortcuts';
 import { useShortcuts } from './use-hotkey-utils';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router';
 
 export function NavigationHotkeys() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const scope = 'navigation';
 
   const handlers = {
-    goToDrafts: () => router.push('/mail/draft'),
-    inbox: () => router.push('/mail/inbox'),
-    sentMail: () => router.push('/mail/sent'),
-    goToArchive: () => router.push('/mail/archive'),
-    goToBin: () => router.push('/mail/bin'),
-    goToSettings: () => router.push('/settings'),
+    goToDrafts: () => navigate('/mail/draft'),
+    inbox: () => navigate('/mail/inbox'),
+    sentMail: () => navigate('/mail/sent'),
+    goToArchive: () => navigate('/mail/archive'),
+    goToBin: () => navigate('/mail/bin'),
+    goToSettings: () => navigate('/settings'),
   };
 
   const globalShortcuts = keyboardShortcuts.filter((shortcut) => shortcut.scope === scope);

@@ -15,10 +15,10 @@ jobs:
       - name: Checkout Code 🛎
         uses: actions/checkout@v4
 
-      - name: Setup Bun 🌟
-        uses: oven-sh/setup-bun@v1
+      - name: Setup pnpm 🌟
+        uses: pnpm/action-setup@v4
         with:
-          bun-version: latest
+          version: latest
 
       - name: Setup Node 📦
         uses: actions/setup-node@v4
@@ -26,4 +26,4 @@ jobs:
           node-version: latest
 
       - name: Install dependencies 📦
-        run: bun install
+        run: pnpm install

@@ -45,7 +45,7 @@ Zero is built with modern and reliable technologies:
 **Required Versions:**
 
 - [Node.js](https://nodejs.org/en/download) (v18 or higher)
-- [Bun](https://bun.sh) (v1.2 or higher)
+- [pnpm](https://pnpm.io) (v10 or higher)
 - [Docker](https://docs.docker.com/engine/install/) (v20 or higher)
 
 Before running the application, you'll need to set up services and configure environment variables. For more details on environment variables, see the [Environment Variables](#environment-variables) section.
@@ -67,10 +67,14 @@ You can set up Zero in two ways:
    cd Zero
 
    # Install dependencies
-   bun install
+   pnpm install
 
    # Start database locally
+   <<<<<<< HEAD
    bun docker:db:up
+   =======
+   pnpm docker:up
+   >>>>>>> ee33afef (feat: remixify and whatever else needed to be done)
    ```
 
 2. **Set Up Environment**
@@ -80,52 +84,20 @@ You can set up Zero in two ways:
      cp .env.example .env
      ```
    - Configure your environment variables (see below)
-   - Setup cloudflare with `bun run cf-install`, you will need to run this everytime there is a `.env` change
-   - Start the database with the provided docker compose setup: `bun docker:db:up`
-   - Initialize the database: `bun db:push`
+   - Setup cloudflare with `pnpm run cf-install`, you will need to run this everytime there is a `.env` change
+   - Start the database with the provided docker compose setup: `pnpm docker:up`
+   - Initialize the database: `pnpm db:push`
 
 3. **Start the App**
 
    ```bash
-   bun dev
+   pnpm dev
    ```
 
 4. **Open in Browser**
 
    Visit [http://localhost:3000](http://localhost:3000)
    </details>
-
-<details>
-<summary><b>Option 2: Dev Container Setup (For VS Code Users)</b></summary>
-
-This option uses VS Code's Dev Containers feature to provide a fully configured development environment with all dependencies pre-installed. It's great for ensuring everyone on the team has the same setup.
-
-1. **Prerequisites**
-
-   - [Docker](https://docs.docker.com/get-docker/)
-   - [VS Code](https://code.visualstudio.com/) or compatible editor
-   - [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-
-2. **Open in Dev Container**
-
-   - Clone the repository: `git clone https://github.com/Mail-0/Zero.git`
-   - Open the folder in VS Code
-   - When prompted, click "Reopen in Container" or run the "Dev Containers: Open Folder in Container" command
-   - VS Code will build and start the dev container (this may take a few minutes the first time)
-
-3. **Access the App**
-
-   - The app will be available at [http://localhost:3000](http://localhost:3000)
-
-4. **Troubleshooting**
-   - If you encounter issues with the container, try rebuilding it using the "Dev Containers: Rebuild Container" command
-   - For dependency issues inside the container:
-     `bash
-rm -rf node_modules
-rm bun.lockb
-bun install
-`
-     </details>
 
 ### Environment Setup
 
@@ -211,7 +183,11 @@ Zero uses PostgreSQL for storing data. Here's how to set it up:
    Run this command to start a local PostgreSQL instance:
 
    ```bash
+   <<<<<<< HEAD
    bun docker:db:up
+   =======
+   pnpm docker:up
+   >>>>>>> ee33afef (feat: remixify and whatever else needed to be done)
    ```
 
    This creates a database with:
@@ -223,7 +199,7 @@ Zero uses PostgreSQL for storing data. Here's how to set it up:
 
 2. **Set Up Database Connection**
 
-   Make sure your database connection string is in `.env` file. And you have ran `bun run cf-install` to sync the latest env.
+   Make sure your database connection string is in `.env` file. And you have ran `pnpm run cf-install` to sync the latest env.
 
    For local development use:
 
@@ -236,26 +212,26 @@ Zero uses PostgreSQL for storing data. Here's how to set it up:
    - **Set up database tables**:
 
      ```bash
-     bun db:push
+     pnpm db:push
      ```
 
    - **Create migration files** (after schema changes):
 
      ```bash
-     bun db:generate
+     pnpm db:generate
      ```
 
    - **Apply migrations**:
 
      ```bash
-     bun db:migrate
+     pnpm db:migrate
      ```
 
    - **View database content**:
      ```bash
-     bun db:studio
+     pnpm db:studio
      ```
-     > If you run `bun dev` in your terminal, the studio command should be automatically running with the app.
+     > If you run `pnpm dev` in your terminal, the studio command should be automatically running with the app.
 
 ## Contribute
 

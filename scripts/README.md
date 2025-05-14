@@ -12,16 +12,16 @@ Scripts can be run using the `scripts` command from the project root:
 
 ```bash
 # Run a script from the project root
-bun scripts <script-name> [options]
+pnpm scripts <script-name> [options]
 
 # Example: Run the seed-style script
-bun scripts seed-style
+pnpm scripts seed-style
 ```
 
 This command is defined in the root `package.json` and executes the script runner in the mail app:
 
 ```json
-"scripts": "dotenv -- bun run --cwd apps/mail --silent --elide-lines=0 scripts"
+"scripts": "dotenv -- pnpm run --cwd apps/mail --silent --elide-lines=0 scripts"
 ```
 
 ## Available Scripts
@@ -34,12 +34,12 @@ Seeds the writing style matrix for a given connection with sample emails of diff
 
 ```bash
 # Interactive mode (will prompt for options)
-bun scripts seed-style
+pnpm scripts seed-style
 
 # With command-line options
-bun scripts seed-style seed --connection-id <id> --style <style> --size <number> [--reset]
+pnpm scripts seed-style seed --connection-id <id> --style <style> --size <number> [--reset]
 # Or reset the style matrix
-bun scripts seed-style reset --connection-id <id>
+pnpm scripts seed-style reset --connection-id <id>
 ```
 
 **Options:**
@@ -94,20 +94,20 @@ export const myScriptCommand = command({
 Update `apps/mail/scripts/run.ts` to include your new command:
 
 ```typescript
-import { subcommands, run } from 'cmd-ts'
 import { seedStyleCommand } from '@zero/mail/scripts/seed-style/seeder';
 import { myScriptCommand } from '@zero/mail/scripts/my-script';
+import { subcommands, run } from 'cmd-ts';
 
 const app = subcommands({
   name: 'scripts',
   cmds: {
     'seed-style': seedStyleCommand,
-    'my-script': myScriptCommand,  // Add your new command here
+    'my-script': myScriptCommand, // Add your new command here
   },
-})
+});
 
-await run(app, process.argv.slice(2))
-process.exit(0)
+await run(app, process.argv.slice(2));
+process.exit(0);
 ```
 
 ### Step 3: Run your script
@@ -115,7 +115,7 @@ process.exit(0)
 You can now run your script using:
 
 ```bash
-bun scripts my-script --param1 value
+pnpm scripts my-script --param1 value
 ```
 
 ## Best Practices

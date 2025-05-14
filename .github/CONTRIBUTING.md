@@ -28,13 +28,13 @@ Thank you for your interest in contributing to 0.email! We're excited to have yo
    - Clone your fork locally: `git clone https://github.com/YOUR-USERNAME/Zero.git`
 
 2. **Set Up Development Environment**
-   - Install [Bun](https://bun.sh)
-   - Clone the repository and install dependencies: `bun install`
-   - Start the database locally: `bun docker:up`
+   - Install [pnpm](https://pnpm.io)
+   - Clone the repository and install dependencies: `pnpm install`
+   - Start the database locally: `pnpm docker:up`
    - Copy `.env.example` to `.env` in project root
-   - Setup cloudflare with `bun run cf-install`, you will need to run this everytime there is a `.env` change
+   - Setup cloudflare with `pnpm run cf-install`, you will need to run this everytime there is a `.env` change
    - Set up your Google OAuth credentials (see [README.md](../README.md))
-   - Initialize the database: `bun db:push`
+   - Initialize the database: `pnpm db:push`
 
 ## Development Workflow
 
@@ -42,10 +42,10 @@ Thank you for your interest in contributing to 0.email! We're excited to have yo
 
    ```bash
    # Start database locally
-   bun docker:up
+   pnpm docker:up
 
    # Start the development server
-   bun dev
+   pnpm dev
    ```
 
 2. **Create a New Branch**
@@ -120,16 +120,16 @@ Zero uses PostgreSQL with Drizzle ORM. Here's how to work with it:
 
    ```bash
    # Apply schema changes to development database
-   bun db:push
+   pnpm db:push
 
    # Create migration files after schema changes
-   bun db:generate
+   pnpm db:generate
 
    # Apply migrations (for production)
-   bun db:migrate
+   pnpm db:migrate
 
    # View and edit data with Drizzle Studio
-   bun db:studio
+   pnpm db:studio
    ```
 
 3. **Database Connection**

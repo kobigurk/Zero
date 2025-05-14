@@ -1,5 +1,3 @@
-'use client';
-
 import { ThreadDisplayHotkeys } from '@/lib/hotkeys/thread-display-hotkeys';
 import { NavigationHotkeys } from '@/lib/hotkeys/navigation-hotkeys';
 import { MailListHotkeys } from '@/lib/hotkeys/mail-list-hotkeys';

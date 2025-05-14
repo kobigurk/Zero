@@ -12,8 +12,8 @@ import { TextEffect } from '@/components/motion-primitives/text-effect';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import useComposeEditor from '@/hooks/use-compose-editor';
 import { Loader, Check, X as XIcon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Command, Paperclip, Plus } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { useTRPC } from '@/providers/query-provider';
@@ -375,7 +375,6 @@ export function EmailComposer({
         id: draftId,
       };
 
-
       const response = await createDraft(draftData);
 
       if (response?.id && response.id !== draftId) {
@@ -418,7 +417,7 @@ export function EmailComposer({
     const handlePasteFiles = (event: ClipboardEvent) => {
       const clipboardData = event.clipboardData;
       if (!clipboardData || !clipboardData.files.length) return;
-      
+
       const pastedFiles = Array.from(clipboardData.files);
       if (pastedFiles.length > 0) {
         event.preventDefault();
@@ -448,22 +447,25 @@ export function EmailComposer({
   return (
     <div
       className={cn(
-        'w-full max-w-[750px] max-h-[550px] overflow-hidden rounded-2xl bg-[#FAFAFA] p-0 py-0 shadow-sm dark:bg-[#1A1A1A] hide-scrollbar',
+        'hide-scrollbar max-h-[550px] w-full max-w-[750px] overflow-hidden rounded-2xl bg-[#FAFAFA] p-0 py-0 shadow-sm dark:bg-[#1A1A1A]',
         className,
       )}
     >
-      <div className="grow max-h-[500px] overflow-y-auto hide-scrollbar">
+      <div className="hide-scrollbar max-h-[500px] grow overflow-y-auto">
         {/* To, Cc, Bcc */}
-        <div className="shrink-0 border-b border-[#E7E7E7] pb-2 dark:border-[#252525] overflow-y-auto">
+        <div className="shrink-0 overflow-y-auto border-b border-[#E7E7E7] pb-2 dark:border-[#252525]">
           <div className="flex justify-between px-3 pt-3">
-            <div onClick={() =>{
-              setIsAddingRecipients(true);
-              setTimeout(() => {
-                if (toInputRef.current) {
-                  toInputRef.current.focus();
-                }
-              }, 0)
-            }}  className="flex items-center gap-2 w-full">
+            <div
+              onClick={() => {
+                setIsAddingRecipients(true);
+                setTimeout(() => {
+                  if (toInputRef.current) {
+                    toInputRef.current.focus();
+                  }
+                }, 0);
+              }}
+              className="flex w-full items-center gap-2"
+            >
               <p className="text-sm font-medium text-[#8C8C8C]">To:</p>
               {isAddingRecipients || toEmails.length === 0 ? (
                 <div ref={toWrapperRef} className="flex flex-wrap items-center gap-2">
@@ -502,9 +504,9 @@ export function EmailComposer({
                       if (e.key === 'Enter' && e.currentTarget.value.trim()) {
                         e.preventDefault();
                         if (isValidEmail(e.currentTarget.value.trim())) {
-                          if(toEmails.includes(e.currentTarget.value.trim())) {
+                          if (toEmails.includes(e.currentTarget.value.trim())) {
                             toast.error('This email is already in the list');
-                          }else{
+                          } else {
                             setValue('to', [...toEmails, e.currentTarget.value.trim()]);
                             e.currentTarget.value = '';
                             setHasUnsavedChanges(true);
@@ -518,9 +520,9 @@ export function EmailComposer({
                       ) {
                         e.preventDefault();
                         if (isValidEmail(e.currentTarget.value.trim())) {
-                          if(toEmails.includes(e.currentTarget.value.trim())) {
+                          if (toEmails.includes(e.currentTarget.value.trim())) {
                             toast.error('This email is already in the list');
-                          }else{
+                          } else {
                             setValue('to', [...toEmails, e.currentTarget.value.trim()]);
                             e.currentTarget.value = '';
                             setHasUnsavedChanges(true);
@@ -543,9 +545,9 @@ export function EmailComposer({
                     onBlur={(e) => {
                       if (e.currentTarget.value.trim()) {
                         if (isValidEmail(e.currentTarget.value.trim())) {
-                          if(toEmails.includes(e.currentTarget.value.trim())) {
+                          if (toEmails.includes(e.currentTarget.value.trim())) {
                             toast.error('This email is already in the list');
-                          }else{
+                          } else {
                             setValue('to', [...toEmails, e.currentTarget.value.trim()]);
                             e.currentTarget.value = '';
                             setHasUnsavedChanges(true);
@@ -558,36 +560,34 @@ export function EmailComposer({
                   />
                 </div>
               ) : (
-                <div
-                  className="flex flex-1 items-center min-h-6 cursor-pointer text-sm text-black dark:text-white"
-                >
-                  {toEmails.length > 0 &&
-                    <div className="flex flex-wrap gap-1 items-center">
+                <div className="flex min-h-6 flex-1 cursor-pointer items-center text-sm text-black dark:text-white">
+                  {toEmails.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-1">
                       {toEmails.slice(0, 3).map((email, index) => (
                         <div
-                        key={index}
-                        className="flex items-center gap-1 rounded-full border border-[#DBDBDB] px-1 py-0.5 pr-2 dark:border-[#2B2B2B]"
-                      >
-                        <span className="flex gap-1 py-0.5 text-sm text-black dark:text-white">
-                          <Avatar className="h-5 w-5">
-                            <AvatarFallback className="rounded-full bg-[#F5F5F5] text-xs font-bold text-[#6D6D6D] dark:bg-[#373737] dark:text-[#9B9B9B]">
-                              {email.charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                          </Avatar>
-                          {email}
-                        </span>
-                        <button
-                          onClick={() => {
-                            setValue(
-                              'to',
-                              toEmails.filter((_, i) => i !== index),
-                            );
-                            setHasUnsavedChanges(true);
-                          }}
-                          className="text-white/50 hover:text-white/90"
+                          key={index}
+                          className="flex items-center gap-1 rounded-full border border-[#DBDBDB] px-1 py-0.5 pr-2 dark:border-[#2B2B2B]"
                         >
-                          <X className="mt-0.5 h-3.5 w-3.5 fill-black dark:fill-[#9A9A9A]" />
-                        </button>
+                          <span className="flex gap-1 py-0.5 text-sm text-black dark:text-white">
+                            <Avatar className="h-5 w-5">
+                              <AvatarFallback className="rounded-full bg-[#F5F5F5] text-xs font-bold text-[#6D6D6D] dark:bg-[#373737] dark:text-[#9B9B9B]">
+                                {email.charAt(0).toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                            {email}
+                          </span>
+                          <button
+                            onClick={() => {
+                              setValue(
+                                'to',
+                                toEmails.filter((_, i) => i !== index),
+                              );
+                              setHasUnsavedChanges(true);
+                            }}
+                            className="text-white/50 hover:text-white/90"
+                          >
+                            <X className="mt-0.5 h-3.5 w-3.5 fill-black dark:fill-[#9A9A9A]" />
+                          </button>
                         </div>
                       ))}
                       {toEmails.length > 3 && (
@@ -596,7 +596,7 @@ export function EmailComposer({
                         </span>
                       )}
                     </div>
-                  }
+                  )}
                 </div>
               )}
             </div>
@@ -631,16 +631,19 @@ export function EmailComposer({
           <div className={`flex flex-col gap-2 ${showCc || showBcc ? 'pt-2' : ''}`}>
             {/* CC Section */}
             {showCc && (
-              <div onClick={() => {
-                setIsAddingCcRecipients(true)
-                setTimeout(() => {
-                  if (ccInputRef.current) {
-                    ccInputRef.current.focus();
-                  }
-                }, 0)
-              }} className="flex items-center gap-2 px-3">
+              <div
+                onClick={() => {
+                  setIsAddingCcRecipients(true);
+                  setTimeout(() => {
+                    if (ccInputRef.current) {
+                      ccInputRef.current.focus();
+                    }
+                  }, 0);
+                }}
+                className="flex items-center gap-2 px-3"
+              >
                 <p className="text-sm font-medium text-[#8C8C8C]">Cc:</p>
-                {isAddingCcRecipients || (ccEmails && ccEmails.length === 0)? (
+                {isAddingCcRecipients || (ccEmails && ccEmails.length === 0) ? (
                   <div ref={ccWrapperRef} className="flex flex-1 flex-wrap items-center gap-2">
                     {ccEmails?.map((email, index) => (
                       <div
@@ -677,9 +680,9 @@ export function EmailComposer({
                         if (e.key === 'Enter' && e.currentTarget.value.trim()) {
                           e.preventDefault();
                           if (isValidEmail(e.currentTarget.value.trim())) {
-                            if(ccEmails?.includes(e.currentTarget.value.trim())) {
+                            if (ccEmails?.includes(e.currentTarget.value.trim())) {
                               toast.error('This email is already in the list');
-                            }else{
+                            } else {
                               setValue('cc', [...(ccEmails || []), e.currentTarget.value.trim()]);
                               e.currentTarget.value = '';
                               setHasUnsavedChanges(true);
@@ -690,9 +693,9 @@ export function EmailComposer({
                         } else if (e.key === ' ' && e.currentTarget.value.trim()) {
                           e.preventDefault();
                           if (isValidEmail(e.currentTarget.value.trim())) {
-                            if(ccEmails?.includes(e.currentTarget.value.trim())) {
+                            if (ccEmails?.includes(e.currentTarget.value.trim())) {
                               toast.error('This email is already in the list');
-                            }else{
+                            } else {
                               setValue('cc', [...(ccEmails || []), e.currentTarget.value.trim()]);
                               e.currentTarget.value = '';
                               setHasUnsavedChanges(true);
@@ -715,9 +718,9 @@ export function EmailComposer({
                       onBlur={(e) => {
                         if (e.currentTarget.value.trim()) {
                           if (isValidEmail(e.currentTarget.value.trim())) {
-                            if(ccEmails?.includes(e.currentTarget.value.trim())) {
+                            if (ccEmails?.includes(e.currentTarget.value.trim())) {
                               toast.error('This email is already in the list');
-                            }else{
+                            } else {
                               setValue('cc', [...(ccEmails || []), e.currentTarget.value.trim()]);
                               e.currentTarget.value = '';
                               setHasUnsavedChanges(true);
@@ -730,36 +733,34 @@ export function EmailComposer({
                     />
                   </div>
                 ) : (
-                  <div
-                    className="flex flex-1 items-center cursor-pointer min-h-6 text-sm text-black dark:text-white"
-                  >
-                    {ccEmails && ccEmails.length > 0 &&
-                      <div className="flex flex-wrap gap-1 items-center">
+                  <div className="flex min-h-6 flex-1 cursor-pointer items-center text-sm text-black dark:text-white">
+                    {ccEmails && ccEmails.length > 0 && (
+                      <div className="flex flex-wrap items-center gap-1">
                         {ccEmails.slice(0, 3).map((email, index) => (
                           <div
-                          key={index}
-                          className="flex items-center gap-1 rounded-full border border-[#DBDBDB] px-1 py-0.5 pr-2 dark:border-[#2B2B2B]"
-                        >
-                          <span className="flex gap-1 py-0.5 text-sm text-black dark:text-white">
-                            <Avatar className="h-5 w-5">
-                              <AvatarFallback className="rounded-full bg-[#F5F5F5] text-xs font-bold text-[#6D6D6D] dark:bg-[#373737] dark:text-[#9B9B9B]">
-                                {email.charAt(0).toUpperCase()}
-                              </AvatarFallback>
-                            </Avatar>
-                            {email}
-                          </span>
-                          <button
-                            onClick={() => {
-                              setValue(
-                                'cc',
-                                ccEmails.filter((_, i) => i !== index),
-                              );
-                              setHasUnsavedChanges(true);
-                            }}
-                            className="text-white/50 hover:text-white/90"
+                            key={index}
+                            className="flex items-center gap-1 rounded-full border border-[#DBDBDB] px-1 py-0.5 pr-2 dark:border-[#2B2B2B]"
                           >
-                            <X className="mt-0.5 h-3.5 w-3.5 fill-black dark:fill-[#9A9A9A]" />
-                          </button>
+                            <span className="flex gap-1 py-0.5 text-sm text-black dark:text-white">
+                              <Avatar className="h-5 w-5">
+                                <AvatarFallback className="rounded-full bg-[#F5F5F5] text-xs font-bold text-[#6D6D6D] dark:bg-[#373737] dark:text-[#9B9B9B]">
+                                  {email.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                              {email}
+                            </span>
+                            <button
+                              onClick={() => {
+                                setValue(
+                                  'cc',
+                                  ccEmails.filter((_, i) => i !== index),
+                                );
+                                setHasUnsavedChanges(true);
+                              }}
+                              className="text-white/50 hover:text-white/90"
+                            >
+                              <X className="mt-0.5 h-3.5 w-3.5 fill-black dark:fill-[#9A9A9A]" />
+                            </button>
                           </div>
                         ))}
                         {ccEmails.length > 3 && (
@@ -768,7 +769,7 @@ export function EmailComposer({
                           </span>
                         )}
                       </div>
-                    }
+                    )}
                   </div>
                 )}
               </div>
@@ -776,16 +777,19 @@ export function EmailComposer({
 
             {/* BCC Section */}
             {showBcc && (
-              <div onClick={() => {
-                setIsAddingBccRecipients(true)
-                setTimeout(() => {
-                  if (bccInputRef.current) {
-                    bccInputRef.current.focus();
-                  }
-                }, 0)
-              }} className="flex items-center gap-2 px-3">
+              <div
+                onClick={() => {
+                  setIsAddingBccRecipients(true);
+                  setTimeout(() => {
+                    if (bccInputRef.current) {
+                      bccInputRef.current.focus();
+                    }
+                  }, 0);
+                }}
+                className="flex items-center gap-2 px-3"
+              >
                 <p className="text-sm font-medium text-[#8C8C8C]">Bcc:</p>
-                {isAddingBccRecipients || (bccEmails && bccEmails.length === 0)? (
+                {isAddingBccRecipients || (bccEmails && bccEmails.length === 0) ? (
                   <div ref={bccWrapperRef} className="flex flex-1 flex-wrap items-center gap-2">
                     {bccEmails?.map((email, index) => (
                       <div
@@ -822,9 +826,9 @@ export function EmailComposer({
                         if (e.key === 'Enter' && e.currentTarget.value.trim()) {
                           e.preventDefault();
                           if (isValidEmail(e.currentTarget.value.trim())) {
-                            if(bccEmails?.includes(e.currentTarget.value.trim())) {
+                            if (bccEmails?.includes(e.currentTarget.value.trim())) {
                               toast.error('This email is already in the list');
-                            } else{
+                            } else {
                               setValue('bcc', [...(bccEmails || []), e.currentTarget.value.trim()]);
                               e.currentTarget.value = '';
                               setHasUnsavedChanges(true);
@@ -835,9 +839,9 @@ export function EmailComposer({
                         } else if (e.key === ' ' && e.currentTarget.value.trim()) {
                           e.preventDefault();
                           if (isValidEmail(e.currentTarget.value.trim())) {
-                            if(bccEmails?.includes(e.currentTarget.value.trim())) {
+                            if (bccEmails?.includes(e.currentTarget.value.trim())) {
                               toast.error('This email is already in the list');
-                            } else{
+                            } else {
                               setValue('bcc', [...(bccEmails || []), e.currentTarget.value.trim()]);
                               e.currentTarget.value = '';
                               setHasUnsavedChanges(true);
@@ -860,9 +864,9 @@ export function EmailComposer({
                       onBlur={(e) => {
                         if (e.currentTarget.value.trim()) {
                           if (isValidEmail(e.currentTarget.value.trim())) {
-                            if(bccEmails?.includes(e.currentTarget.value.trim())) {
+                            if (bccEmails?.includes(e.currentTarget.value.trim())) {
                               toast.error('This email is already in the list');
-                            } else{
+                            } else {
                               setValue('bcc', [...(bccEmails || []), e.currentTarget.value.trim()]);
                               e.currentTarget.value = '';
                               setHasUnsavedChanges(true);
@@ -875,36 +879,34 @@ export function EmailComposer({
                     />
                   </div>
                 ) : (
-                  <div
-                    className="flex flex-1 items-center cursor-pointer min-h-6 text-sm text-black dark:text-white"
-                  >
-                    {bccEmails && bccEmails.length > 0 && 
-                      <div className="flex flex-wrap gap-1 items-center">
+                  <div className="flex min-h-6 flex-1 cursor-pointer items-center text-sm text-black dark:text-white">
+                    {bccEmails && bccEmails.length > 0 && (
+                      <div className="flex flex-wrap items-center gap-1">
                         {bccEmails.slice(0, 3).map((email, index) => (
                           <div
-                          key={index}
-                          className="flex items-center gap-1 rounded-full border border-[#DBDBDB] px-1 py-0.5 pr-2 dark:border-[#2B2B2B]"
-                        >
-                          <span className="flex gap-1 py-0.5 text-sm text-black dark:text-white">
-                            <Avatar className="h-5 w-5">
-                              <AvatarFallback className="rounded-full bg-[#F5F5F5] text-xs font-bold text-[#6D6D6D] dark:bg-[#373737] dark:text-[#9B9B9B]">
-                                {email.charAt(0).toUpperCase()}
-                              </AvatarFallback>
-                            </Avatar>
-                            {email}
-                          </span>
-                          <button
-                            onClick={() => {
-                              setValue(
-                                'bcc',
-                                bccEmails.filter((_, i) => i !== index),
-                              );
-                              setHasUnsavedChanges(true);
-                            }}
-                            className="text-white/50 hover:text-white/90"
+                            key={index}
+                            className="flex items-center gap-1 rounded-full border border-[#DBDBDB] px-1 py-0.5 pr-2 dark:border-[#2B2B2B]"
                           >
-                            <X className="mt-0.5 h-3.5 w-3.5 fill-black dark:fill-[#9A9A9A]" />
-                          </button>
+                            <span className="flex gap-1 py-0.5 text-sm text-black dark:text-white">
+                              <Avatar className="h-5 w-5">
+                                <AvatarFallback className="rounded-full bg-[#F5F5F5] text-xs font-bold text-[#6D6D6D] dark:bg-[#373737] dark:text-[#9B9B9B]">
+                                  {email.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                              {email}
+                            </span>
+                            <button
+                              onClick={() => {
+                                setValue(
+                                  'bcc',
+                                  bccEmails.filter((_, i) => i !== index),
+                                );
+                                setHasUnsavedChanges(true);
+                              }}
+                              className="text-white/50 hover:text-white/90"
+                            >
+                              <X className="mt-0.5 h-3.5 w-3.5 fill-black dark:fill-[#9A9A9A]" />
+                            </button>
                           </div>
                         ))}
                         {bccEmails.length > 3 && (
@@ -913,7 +915,7 @@ export function EmailComposer({
                           </span>
                         )}
                       </div>
-                    }
+                    )}
                   </div>
                 )}
               </div>
@@ -921,51 +923,50 @@ export function EmailComposer({
           </div>
         </div>
 
-      {/* Subject */}
-      <div className="flex items-center gap-2 p-3">
-        <p className="text-sm font-medium text-[#8C8C8C]">Subject:</p>
-        <input
-          className="h-4 w-full bg-transparent text-sm font-normal leading-normal text-black placeholder:text-[#797979] focus:outline-none dark:text-white/90"
-          placeholder="Re: Design review feedback"
-          value={subjectInput}
-          onChange={(e) => {
-            setValue('subject', e.target.value);
-            setHasUnsavedChanges(true);
-          }}
-        />
-        <button
-          className=""
-          onClick={handleGenerateSubject}
-          disabled={isLoading || isGeneratingSubject}
-        >
-          <div className="flex items-center justify-center gap-2.5 pl-0.5">
-            <div className="flex h-5 items-center justify-center gap-1 rounded-sm">
-              {isGeneratingSubject ? (
-                <Loader className="h-3.5 w-3.5 animate-spin fill-black dark:fill-white" />
-              ) : (
-                <Sparkles className="h-3.5 w-3.5 fill-black dark:fill-white" />
-              )}
+        {/* Subject */}
+        <div className="flex items-center gap-2 p-3">
+          <p className="text-sm font-medium text-[#8C8C8C]">Subject:</p>
+          <input
+            className="h-4 w-full bg-transparent text-sm font-normal leading-normal text-black placeholder:text-[#797979] focus:outline-none dark:text-white/90"
+            placeholder="Re: Design review feedback"
+            value={subjectInput}
+            onChange={(e) => {
+              setValue('subject', e.target.value);
+              setHasUnsavedChanges(true);
+            }}
+          />
+          <button
+            className=""
+            onClick={handleGenerateSubject}
+            disabled={isLoading || isGeneratingSubject}
+          >
+            <div className="flex items-center justify-center gap-2.5 pl-0.5">
+              <div className="flex h-5 items-center justify-center gap-1 rounded-sm">
+                {isGeneratingSubject ? (
+                  <Loader className="h-3.5 w-3.5 animate-spin fill-black dark:fill-white" />
+                ) : (
+                  <Sparkles className="h-3.5 w-3.5 fill-black dark:fill-white" />
+                )}
+              </div>
             </div>
-          </div>
-        </button>
-      </div>
+          </button>
+        </div>
 
-      {/* Message Content */}
-      <div className="grow overflow-y-auto self-stretch border-t bg-[#FFFFFF] px-3 py-3 outline-white/5 dark:bg-[#202020]">
-        <div
-          className={cn(
-            'min-h-[200px] max-h-[300px] w-full',
-            aiGeneratedMessage !== null ? 'blur-sm' : '',
-          )}
-        >
-          <EditorContent editor={editor} className="h-full w-full" />
+        {/* Message Content */}
+        <div className="grow self-stretch overflow-y-auto border-t bg-[#FFFFFF] px-3 py-3 outline-white/5 dark:bg-[#202020]">
+          <div
+            className={cn(
+              'max-h-[300px] min-h-[200px] w-full',
+              aiGeneratedMessage !== null ? 'blur-sm' : '',
+            )}
+          >
+            <EditorContent editor={editor} className="h-full w-full" />
+          </div>
         </div>
       </div>
-    </div>
 
-    
-    {/* Bottom Actions */}
-    <div className="inline-flex w-full items-center rounded-b-2xl justify-between self-stretch bg-[#FFFFFF] px-3 py-3 outline-white/5 dark:bg-[#202020]">
+      {/* Bottom Actions */}
+      <div className="inline-flex w-full items-center justify-between self-stretch rounded-b-2xl bg-[#FFFFFF] px-3 py-3 outline-white/5 dark:bg-[#202020]">
         <div className="flex items-center justify-start gap-2">
           <div className="flex items-center justify-start gap-2">
             <button
@@ -1114,88 +1115,88 @@ export function EmailComposer({
             )}
           </div>
         </div>
-          <div className="flex items-start justify-start gap-2">
-            <div className="relative">
-              <AnimatePresence>
-                {aiGeneratedMessage !== null ? (
-                  <ContentPreview
-                    content={aiGeneratedMessage}
-                    onAccept={() => {
-                      editor.commands.setContent({
-                        type: 'doc',
-                        content: aiGeneratedMessage.split(/\r?\n/).map((line) => {
-                          return {
-                            type: 'paragraph',
-                            content: line.trim().length === 0 ? [] : [{ type: 'text', text: line }],
-                          };
-                        }),
-                      });
-                      setAiGeneratedMessage(null);
-                    }}
-                    onReject={() => {
-                      setAiGeneratedMessage(null);
-                    }}
-                  />
-                ) : null}
-              </AnimatePresence>
-              <button
-                className="flex h-7 cursor-pointer items-center justify-center gap-1.5 overflow-hidden rounded-md border border-[#8B5CF6] pl-1.5 pr-2 dark:bg-[#252525]"
-                onClick={async () => {
-                  if (!subjectInput.trim()) {
-                    await handleGenerateSubject();
-                  }
-                  setAiGeneratedMessage(null);
-                  await handleAiGenerate();
-                }}
-                disabled={isLoading || aiIsLoading}
-              >
-                <div className="flex items-center justify-center gap-2.5 pl-0.5">
-                  <div className="flex h-5 items-center justify-center gap-1 rounded-sm">
-                    {aiIsLoading ? (
-                      <Loader className="h-3.5 w-3.5 animate-spin fill-black dark:fill-white" />
-                    ) : (
-                      <Sparkles className="h-3.5 w-3.5 fill-black dark:fill-white" />
-                    )}
-                  </div>
-                  <div className="hidden text-center text-sm leading-none text-black md:block dark:text-white">
-                    Generate
-                  </div>
-                </div>
-              </button>
-            </div>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  disabled
-                  className="hidden h-7 items-center gap-0.5 overflow-hidden rounded-md bg-white/5 px-1.5 shadow-sm hover:bg-white/10 disabled:opacity-50 md:flex"
-                >
-                  <Smile className="h-3 w-3 fill-[#9A9A9A]" />
-                  <span className="px-0.5 text-sm">Casual</span>
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Coming soon...</p>
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  disabled
-                  className="flex h-7 items-center gap-0.5 overflow-hidden rounded-md bg-white/5 px-1.5 shadow-sm hover:bg-white/10 disabled:opacity-50 md:flex"
-                >
-                  {messageLength < 50 && <ShortStack className="h-3 w-3 fill-[#9A9A9A]" />}
-                  {messageLength >= 50 && messageLength < 200 && (
-                    <MediumStack className="h-3 w-3 fill-[#9A9A9A]" />
+        <div className="flex items-start justify-start gap-2">
+          <div className="relative">
+            <AnimatePresence>
+              {aiGeneratedMessage !== null ? (
+                <ContentPreview
+                  content={aiGeneratedMessage}
+                  onAccept={() => {
+                    editor.commands.setContent({
+                      type: 'doc',
+                      content: aiGeneratedMessage.split(/\r?\n/).map((line) => {
+                        return {
+                          type: 'paragraph',
+                          content: line.trim().length === 0 ? [] : [{ type: 'text', text: line }],
+                        };
+                      }),
+                    });
+                    setAiGeneratedMessage(null);
+                  }}
+                  onReject={() => {
+                    setAiGeneratedMessage(null);
+                  }}
+                />
+              ) : null}
+            </AnimatePresence>
+            <button
+              className="flex h-7 cursor-pointer items-center justify-center gap-1.5 overflow-hidden rounded-md border border-[#8B5CF6] pl-1.5 pr-2 dark:bg-[#252525]"
+              onClick={async () => {
+                if (!subjectInput.trim()) {
+                  await handleGenerateSubject();
+                }
+                setAiGeneratedMessage(null);
+                await handleAiGenerate();
+              }}
+              disabled={isLoading || aiIsLoading}
+            >
+              <div className="flex items-center justify-center gap-2.5 pl-0.5">
+                <div className="flex h-5 items-center justify-center gap-1 rounded-sm">
+                  {aiIsLoading ? (
+                    <Loader className="h-3.5 w-3.5 animate-spin fill-black dark:fill-white" />
+                  ) : (
+                    <Sparkles className="h-3.5 w-3.5 fill-black dark:fill-white" />
                   )}
-                  {messageLength >= 200 && <LongStack className="h-3 w-3 fill-[#9A9A9A]" />}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Coming soon...</p>
-              </TooltipContent>
-            </Tooltip>
+                </div>
+                <div className="hidden text-center text-sm leading-none text-black md:block dark:text-white">
+                  Generate
+                </div>
+              </div>
+            </button>
           </div>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                disabled
+                className="hidden h-7 items-center gap-0.5 overflow-hidden rounded-md bg-white/5 px-1.5 shadow-sm hover:bg-white/10 disabled:opacity-50 md:flex"
+              >
+                <Smile className="h-3 w-3 fill-[#9A9A9A]" />
+                <span className="px-0.5 text-sm">Casual</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Coming soon...</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                disabled
+                className="flex h-7 items-center gap-0.5 overflow-hidden rounded-md bg-white/5 px-1.5 shadow-sm hover:bg-white/10 disabled:opacity-50 md:flex"
+              >
+                {messageLength < 50 && <ShortStack className="h-3 w-3 fill-[#9A9A9A]" />}
+                {messageLength >= 50 && messageLength < 200 && (
+                  <MediumStack className="h-3 w-3 fill-[#9A9A9A]" />
+                )}
+                {messageLength >= 200 && <LongStack className="h-3 w-3 fill-[#9A9A9A]" />}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Coming soon...</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
+      </div>
     </div>
   );
 }
@@ -1309,4 +1310,3 @@ const ContentPreview = ({
     </div>
   </motion.div>
 );
-

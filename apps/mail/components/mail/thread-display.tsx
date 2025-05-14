@@ -1,8 +1,7 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useNavigate, useSearchParams } from 'react-router';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTheme } from 'next-themes';
-import Image from 'next/image';
 
 import {
   ChevronLeft,
@@ -45,8 +44,8 @@ import ThreadSubject from './thread-subject';
 import type { ParsedMessage } from '@/types';
 import ReplyCompose from './reply-composer';
 import { Separator } from '../ui/separator';
-import { useTranslations } from 'next-intl';
 import { useMail } from '../mail/use-mail';
+import { useTranslations } from 'use-intl';
 import { NotesPanel } from './note-panel';
 import { cn, FOLDERS } from '@/lib/utils';
 import MailDisplay from './mail-display';
@@ -152,6 +151,8 @@ export function ThreadDisplay() {
   const isMobile = useIsMobile();
   const { toggleOpen: toggleAISidebar, open: isSidebarOpen } = useAISidebar();
   const params = useParams<{ folder: string }>();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const folder = params?.folder ?? 'inbox';
   const [id, setThreadId] = useQueryState('threadId');
   const { data: emailData, isLoading, refetch: refetchThread } = useThread(id ?? null);
@@ -358,7 +359,7 @@ export function ThreadDisplay() {
         {!id ? (
           <div className="flex h-full items-center justify-center">
             <div className="flex flex-col items-center justify-center gap-2 text-center">
-              <Image
+              <img
                 src={resolvedTheme === 'dark' ? '/empty-state.svg' : '/empty-state-light.svg'}
                 alt="Empty Thread"
                 width={200}

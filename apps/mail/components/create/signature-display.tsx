@@ -1,8 +1,6 @@
-'use client';
-
+import { useImageLoading } from '@/hooks/use-image-loading';
 import React, { useEffect, useRef } from 'react';
 import DOMPurify from 'dompurify';
-import { useImageLoading } from '@/hooks/use-image-loading';
 
 interface SignatureDisplayProps {
   html: string;
@@ -14,18 +12,18 @@ export default function SignatureDisplay({ html, className = '' }: SignatureDisp
 
   useEffect(() => {
     if (!iframeRef.current) return;
-    
+
     const iframe = iframeRef.current;
-    
+
     try {
       const doc = iframe.contentDocument || iframe.contentWindow?.document;
       if (!doc) return;
-      
+
       const sanitizedHtml = DOMPurify.sanitize(html, {
         ADD_ATTR: ['target'],
         FORBID_TAGS: ['script', 'iframe', 'object', 'embed'],
       });
-      
+
       doc.open();
       doc.write(`
         <!DOCTYPE html>
@@ -49,7 +47,7 @@ export default function SignatureDisplay({ html, className = '' }: SignatureDisp
         </html>
       `);
       doc.close();
-      
+
       // Use a more efficient approach for height measurement
       const measureAndSetHeight = () => {
         if (doc.body) {
@@ -59,16 +57,16 @@ export default function SignatureDisplay({ html, className = '' }: SignatureDisp
           }
         }
       };
-      
+
       // Set height after content loads
       measureAndSetHeight();
-      
+
       // Set up listeners for images that might change the height
       const cleanup = useImageLoading(doc, measureAndSetHeight);
-      
+
       // Final height check after a short delay
       const timeoutId = setTimeout(measureAndSetHeight, 100);
-      
+
       return () => {
         cleanup();
         clearTimeout(timeoutId);

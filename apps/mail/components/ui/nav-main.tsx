@@ -1,5 +1,3 @@
-'use client';
-
 import {
   SidebarGroup,
   SidebarMenu,
@@ -30,7 +28,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { LabelSidebarContextMenu } from '../context/label-sidebar-context';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { useSearchValue } from '@/hooks/use-search-value';
 import { clearBulkSelectionAtom } from '../mail/use-mail';
 import { Label as UILabel } from '@/components/ui/label';
@@ -48,17 +45,18 @@ import { useSession } from '@/lib/auth-client';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useStats } from '@/hooks/use-stats';
-import { useTranslations } from 'next-intl';
 import { useRef, useCallback } from 'react';
 import { BASE_URL } from '@/lib/constants';
+import { useLocation } from 'react-router';
+import { useTranslations } from 'use-intl';
 import { useForm } from 'react-hook-form';
 import { useQueryState } from 'nuqs';
 import { Plus } from 'lucide-react';
+import { Link } from 'react-router';
 import { cn } from '@/lib/utils';
 import { useAtom } from 'jotai';
 import { toast } from 'sonner';
 import * as React from 'react';
-import Link from 'next/link';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   ref?: React.Ref<SVGSVGElement>;
@@ -88,8 +86,9 @@ type IconRefType = SVGSVGElement & {
 };
 
 export function NavMain({ items }: NavMainProps) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const pathname = location.pathname;
+  const searchParams = new URLSearchParams();
   const [category] = useQueryState('category');
   const [searchValue, setSearchValue] = useSearchValue();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -562,7 +561,7 @@ function NavItem(item: NavItemProps & { href: string }) {
 
   // Apply animation handlers to all buttons including back buttons
   const linkProps = {
-    href: item.href,
+    to: item.href,
     onMouseEnter: () => iconRef.current?.startAnimation?.(),
     onMouseLeave: () => iconRef.current?.stopAnimation?.(),
   };
@@ -597,7 +596,7 @@ function NavItem(item: NavItemProps & { href: string }) {
       <CollapsibleTrigger asChild>
         <Link
           {...linkProps}
-          prefetch
+          prefetch="intent"
           onClick={item.onClick ? item.onClick : undefined}
           target={item.target}
         >

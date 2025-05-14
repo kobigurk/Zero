@@ -7,40 +7,32 @@ import {
 } from '@/components/ui/dialog';
 import { CreateEmail } from '@/components/create/create-email';
 import { authProxy } from '@/lib/auth-proxy';
-import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
+import { useLoaderData } from 'react-router';
+import type { Route } from './+types/page';
 
-// Define the type for search params
-interface ComposePageProps {
-  searchParams: Promise<{
+export async function loader({ request }: Route.LoaderArgs) {
+  const session = await authProxy.api.getSession({ headers: request.headers });
+  if (!session) return Response.redirect('/login');
+  const url = new URL(request.url);
+  if (url.searchParams.get('to')?.startsWith('mailto:')) {
+    return Response.redirect(
+      `/mail/compose/handle-mailto?mailto=${encodeURIComponent(url.searchParams.get('to') ?? '')}`,
+    );
+  }
+
+  return Object.fromEntries(url.searchParams.entries()) as {
     to?: string;
     subject?: string;
     body?: string;
     draftId?: string;
     cc?: string;
     bcc?: string;
-  }>;
+  };
 }
 
-export default async function ComposePage({ searchParams }: ComposePageProps) {
-  const headersList = new Headers(Object.fromEntries(await (await headers()).entries()));
-  const session = await authProxy.api.getSession({ headers: headersList });
+export default function ComposePage() {
+  const params = useLoaderData<typeof loader>();
 
-  if (!session.user.id) {
-    redirect('/login');
-  }
-
-  // Need to await searchParams in Next.js 15+
-  const params = await searchParams;
-
-  // Check if this is a mailto URL
-  const toParam = params.to || '';
-  if (toParam.startsWith('mailto:')) {
-    // Redirect to our dedicated mailto handler
-    redirect(`/mail/compose/handle-mailto?mailto=${encodeURIComponent(toParam)}`);
-  }
-
-  // Handle normal compose page (direct or with draftId)
   return (
     <Dialog open={true}>
       <DialogTitle></DialogTitle>

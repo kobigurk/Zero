@@ -66,8 +66,8 @@ import {
 } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { useTranslations, useFormatter } from 'next-intl';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useTranslations, useFormatter } from 'use-intl';
 import { useTRPC } from '@/providers/query-provider';
 import { Textarea } from '@/components/ui/textarea';
 import { useMutation } from '@tanstack/react-query';

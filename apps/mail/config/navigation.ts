@@ -18,7 +18,8 @@ import {
   Plane2,
   LockIcon,
 } from '@/components/icons/icons';
-import type { NestedKeyOf, MessageKeys } from 'next-intl';
+import type { NestedKeyOf, MessageKeys } from 'use-intl';
+import type { IntlMessages } from '@/i18n/config';
 import { MessageSquareIcon } from 'lucide-react';
 
 export interface NavItem {

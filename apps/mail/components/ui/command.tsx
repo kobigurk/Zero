@@ -1,9 +1,11 @@
-'use client';
-
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import { type DialogProps } from '@radix-ui/react-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  type DialogProps,
+} from '@/components/ui/dialog';
 import { Command as CommandPrimitive } from 'cmdk';
-
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
@@ -28,7 +30,10 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
     <Dialog {...props}>
       <DialogTitle className="sr-only">Command</DialogTitle>
       <DialogDescription className="sr-only">Command</DialogDescription>
-      <DialogContent showOverlay={true} className="overflow-hidden p-0 sm:max-w-lg border rounded-xl w-full [&>button:last-child]:hidden bg-white dark:bg-[#1A1A1A]">
+      <DialogContent
+        showOverlay={true}
+        className="w-full overflow-hidden rounded-xl border bg-white p-0 sm:max-w-lg dark:bg-[#1A1A1A] [&>button:last-child]:hidden"
+      >
         <Command className="[&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-3 [&_[cmdk-item]]:py-2">
           {children}
         </Command>

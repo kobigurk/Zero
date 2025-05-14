@@ -1,15 +1,13 @@
-'use client';
-
 import { moveThreadsTo, type ThreadDestination } from '@/lib/thread-actions';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useThread, useThreads } from '@/hooks/use-threads';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useNavigate } from 'react-router';
 import { useTRPC } from '@/providers/query-provider';
 import { Archive, Mail, Inbox } from 'lucide-react';
 import { useCallback, memo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useStats } from '@/hooks/use-stats';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import { cn, FOLDERS } from '@/lib/utils';
 import { useQueryState } from 'nuqs';
 import { toast } from 'sonner';
@@ -50,7 +48,7 @@ export const MailQuickActions = memo(
     const [{ refetch, isLoading }] = useThreads();
     const { refetch: mutateStats } = useStats();
     const t = useTranslations();
-    const router = useRouter();
+    const navigate = useNavigate();
     const [isProcessing, setIsProcessing] = useState(false);
     const [threadId, setThreadId] = useQueryState('threadId');
 
@@ -71,7 +69,7 @@ export const MailQuickActions = memo(
       if (resetNavigation) {
         resetNavigation();
       }
-    }, [threadId, latestMessage, router, currentFolder, resetNavigation]);
+    }, [threadId, latestMessage, navigate, currentFolder, resetNavigation]);
 
     const handleArchive = useCallback(
       async (e?: React.MouseEvent) => {

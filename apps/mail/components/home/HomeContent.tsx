@@ -1,5 +1,3 @@
-'use client';
-
 import {
   ArrowRight,
   ChevronDown,
@@ -47,21 +45,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { use, useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Balancer } from 'react-wrap-balancer';
 import { Input } from '@/components/ui/input';
 import { Command, Menu } from 'lucide-react';
 import { Separator } from '../ui/separator';
-import Balancer from 'react-wrap-balancer';
-import { signIn } from '@/lib/auth-client';
 import { useForm } from 'react-hook-form';
 import { useInView } from 'motion/react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
+import { Link } from 'react-router';
 import { cn } from '@/lib/utils';
-import { env } from '@/lib/env';
-import Image from 'next/image';
 import { toast } from 'sonner';
 import Footer from './footer';
-import Link from 'next/link';
 import React from 'react';
 import { z } from 'zod';
 
@@ -180,12 +175,12 @@ export default function HomeContent() {
       <header className="fixed z-50 hidden w-full items-center justify-center px-4 pt-6 md:flex">
         <nav className="border-input/50 bg-popover flex w-full max-w-3xl items-center justify-between gap-2 rounded-xl border-t p-2 px-4">
           <div className="flex items-center gap-6">
-            <a href="/" className="relative bottom-1 cursor-pointer">
-              <Image src="white-icon.svg" alt="Zero Email" width={22} height={22} />
+            <Link to="/" className="relative bottom-1 cursor-pointer">
+              <img src="white-icon.svg" alt="Zero Email" width={22} height={22} />
               <span className="text-muted-foreground absolute -right-[-0.5px] text-[10px]">
                 beta
               </span>
-            </a>
+            </Link>
             <NavigationMenu>
               <NavigationMenuList className="gap-1">
                 <NavigationMenuItem>
@@ -264,7 +259,7 @@ export default function HomeContent() {
           <SheetContent side="left" className="w-[300px] bg-[#111111] sm:w-[400px]">
             <SheetHeader className="flex flex-row items-center justify-between">
               <SheetTitle>
-                <Image src="white-icon.svg" alt="Zero Email" width={22} height={22} />
+                <img src="white-icon.svg" alt="Zero Email" width={22} height={22} />
               </SheetTitle>
               <a href="/login">
                 <Button className="w-full">Sign in</Button>
@@ -290,7 +285,7 @@ export default function HomeContent() {
                 return (
                   <Link
                     key={resource.title}
-                    href={resource.href}
+                    to={resource.href}
                     className="flex items-center gap-2 font-medium"
                   >
                     {resource.platform && <Icon className="h-5 w-5" />}
@@ -310,7 +305,7 @@ export default function HomeContent() {
           className="border-input/50 mb-6 inline-flex items-center gap-4 rounded-full border border-[#2A2A2A] bg-[#1E1E1E] px-4 py-1"
         >
           <span className="flex items-center gap-2 text-sm">
-            <Image
+            <img
               src="/yc-small.svg"
               alt="Y Combinator"
               className="rounded-[2px]"
@@ -417,13 +412,13 @@ export default function HomeContent() {
               <div className="bg-border absolute -right-px -top-4 hidden h-4 w-px md:block" /> */}
               {tabs.map((tab) => (
                 <TabsContent key={tab.value} value={tab.value}>
-                  <Image
+                  <img
                     src="/email-preview.png"
                     alt="Zero Email Preview"
                     width={1920}
                     height={1080}
                     className="relative hidden md:block"
-                    priority
+                    loading="eager"
                   />
                 </TabsContent>
               ))}
@@ -433,13 +428,13 @@ export default function HomeContent() {
       </section>
 
       <div className="flex items-center justify-center px-4 md:hidden">
-        <Image
+        <img
           src="/email-preview.png"
           alt="Zero Email Preview"
           width={1920}
           height={1080}
           className="mt-10 h-fit w-full rounded-xl border"
-          priority
+          loading="eager"
         />
       </div>
 
@@ -480,7 +475,7 @@ export default function HomeContent() {
               <div className="text-base-gray-500/50 justify-start text-sm leading-none">To:</div>
               <div className="flex flex-1 items-center justify-start gap-1">
                 <div className="outline-tokens-badge-default/10 flex items-center justify-start gap-1.5 rounded-full border border-[#2B2B2B] py-1 pl-1 pr-1.5">
-                  <Image
+                  <img
                     height={20}
                     width={20}
                     className="h-5 w-5 rounded-full"
@@ -496,7 +491,7 @@ export default function HomeContent() {
                   </div>
                 </div>
                 <div className="outline-tokens-badge-default/10 flex items-center justify-start gap-1.5 rounded-full border border-[#2B2B2B] py-1 pl-1 pr-1.5">
-                  <Image
+                  <img
                     height={20}
                     width={20}
                     className="h-5 w-5 rounded-full"
@@ -698,12 +693,11 @@ export default function HomeContent() {
                 </div>
                 <div className="flex flex-col items-start justify-start gap-1.5 self-stretch px-1.5">
                   <div className="inline-flex items-center justify-start gap-2.5 self-stretch rounded-md p-2.5">
-                    <Image
+                    <img
                       alt="Nizzy"
                       height={250}
                       width={250}
-                      objectFit="cover"
-                      className="h-6 w-6 rounded-full"
+                      className="h-6 w-6 rounded-full object-cover"
                       src="/nizzy.jpg"
                     />
                     <div className="inline-flex h-7 flex-1 flex-col items-start justify-start gap-2">
@@ -942,7 +936,7 @@ export default function HomeContent() {
                   </div>
                   <div className="border-tokens-stroke-light/5 flex-col items-start justify-start gap-6 self-stretch overflow-hidden border-b-[0.35px] p-3.5">
                     <div className="inline-flex items-center justify-start gap-3 self-stretch">
-                      <Image
+                      <img
                         alt="Ahmet"
                         height={200}
                         width={200}
@@ -977,7 +971,7 @@ export default function HomeContent() {
                 <div className="absolute left-0 top-[121px] inline-flex w-[650px] flex-col items-start justify-start gap-4 overflow-hidden rounded-3xl border border-[#8B5CF6] bg-[#2A1D48] p-6 outline outline-[#3F325F]">
                   <div className="inline-flex items-center justify-start gap-1.5">
                     <div className="relative h-3.5 w-3.5">
-                      <Image src="/star.svg" alt="AI Summary" width={16} height={16} className="" />
+                      <img src="/star.svg" alt="AI Summary" width={16} height={16} className="" />
                     </div>
                     <div className="flex items-center justify-start gap-1 text-xs leading-3 text-[#948CA4]">
                       AI Summary
@@ -1037,7 +1031,7 @@ export default function HomeContent() {
                     <div className="inline-flex items-center justify-start gap-3 self-stretch rounded-lg p-3">
                       <div className="relative h-8 w-8 rounded-full bg-indigo-500/10">
                         <div className="absolute left-[10.2px] top-[4px] h-7 w-3 overflow-hidden">
-                          <Image
+                          <img
                             src="/stripe.svg"
                             alt="Stripe"
                             width={12}
@@ -1074,7 +1068,7 @@ export default function HomeContent() {
                       <div className="relative h-8 w-8 rounded-full bg-red-600/10">
                         <div className="absolute left-0 top-0 h-8 w-8 rounded-full" />
                         <div className="absolute left-[11px] top-[4px] h-7 w-2.5">
-                          <Image
+                          <img
                             src="/netflix.svg"
                             alt="Stripe"
                             width={12}
@@ -1108,7 +1102,7 @@ export default function HomeContent() {
                       </div>
                     </div>
                     <div className="inline-flex items-center justify-start gap-3 self-stretch rounded-[10px] bg-[#202020] p-3">
-                      <Image
+                      <img
                         className="h-8 w-8 rounded-full"
                         src="/dudu.jpg"
                         alt="Dudu"
@@ -1327,7 +1321,7 @@ export default function HomeContent() {
                 </div>
                 <div className="flex flex-col items-start justify-start gap-2 self-stretch px-2 pb-2">
                   <div className="inline-flex items-center justify-start gap-3 self-stretch rounded-lg p-3">
-                    <Image
+                    <img
                       src="/adam.jpg"
                       alt="avatar"
                       width={32}
@@ -1446,7 +1440,7 @@ export default function HomeContent() {
                   </div>
                 </div>
                 <div className="relative flex flex-1 flex-col items-center justify-center gap-8 self-stretch overflow-hidden px-5 py-4">
-                  <Image
+                  <img
                     src="/white-icon.svg"
                     alt="chat"
                     width={28}
@@ -1517,7 +1511,7 @@ export default function HomeContent() {
               </div>
             </div>
           </motion.div>
-          <Image
+          <img
             src="/pixel.svg"
             alt="hero"
             width={1920}
@@ -1548,21 +1542,21 @@ export default function HomeContent() {
           <span className="text-white underline">save hours every week.</span>
         </div>
         <div className="flex items-center justify-center">
-          <Image
+          <img
             className="relative bottom-12 right-[162px]"
             src="/verified-home.png"
             alt="tasks"
             width={50}
             height={50}
           />
-          <Image
+          <img
             className="relative bottom-[150px] right-[-25px]"
             src="/snooze-home.png"
             alt="tasks"
             width={50}
             height={50}
           />
-          <Image
+          <img
             className="relative bottom-[195px] left-[278px]"
             src="/star-home.png"
             alt="tasks"

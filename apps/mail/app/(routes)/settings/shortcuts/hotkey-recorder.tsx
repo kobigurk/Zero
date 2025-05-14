@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import type { MessageKey } from '@/config/navigation';
-import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'use-intl';
 
 interface HotkeyRecorderProps {
   isOpen: boolean;

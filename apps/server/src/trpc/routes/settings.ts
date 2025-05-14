@@ -4,6 +4,7 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { userSettings } from '@zero/db/schema';
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
+import { z } from 'zod';
 
 export const settingsRouter = router({
   get: privateProcedure

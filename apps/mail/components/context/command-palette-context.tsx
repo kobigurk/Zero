@@ -1,5 +1,3 @@
-'use client';
-
 import {
   CommandDialog,
   CommandEmpty,
@@ -11,11 +9,14 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { useRouter, usePathname } from 'next/navigation';
-import { navigationConfig } from '@/config/navigation';
+import { useOpenComposeModal } from '@/hooks/use-open-compose-modal';
+import { navigationConfig, type NavItem } from '@/config/navigation';
+import { useNavigate, useLocation } from 'react-router';
+import { keyboardShortcuts } from '@/config/shortcuts';
 import { ArrowUpRight } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
+import { CircleHelp } from 'lucide-react';
+import { VisuallyHidden } from 'radix-ui';
 import { Pencil2 } from '../icons/icons';
 import { useQueryState } from 'nuqs';
 import * as React from 'react';
@@ -53,8 +54,8 @@ export function useCommandPalette() {
 export function CommandPalette({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const [, setIsComposeOpen] = useQueryState('isComposeOpen');
-  const router = useRouter();
-  const pathname = usePathname();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -167,10 +168,10 @@ export function CommandPalette({ children }: { children: React.ReactNode }) {
       }}
     >
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <VisuallyHidden>
+        <VisuallyHidden.VisuallyHidden>
           <DialogTitle>{t('common.commandPalette.title')}</DialogTitle>
           <DialogDescription>{t('common.commandPalette.description')}</DialogDescription>
-        </VisuallyHidden>
+        </VisuallyHidden.VisuallyHidden>
         <CommandInput autoFocus placeholder={t('common.commandPalette.placeholder')} />
         <CommandList>
           <CommandEmpty>{t('common.commandPalette.noResults')}</CommandEmpty>
@@ -186,7 +187,7 @@ export function CommandPalette({ children }: { children: React.ReactNode }) {
                           if (item.onClick) {
                             item.onClick();
                           } else if (item.url) {
-                            router.push(item.url);
+                            navigate(item.url);
                           }
                         })
                       }

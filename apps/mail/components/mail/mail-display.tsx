@@ -43,16 +43,15 @@ import { useSession } from '@/lib/auth-client';
 import { RenderLabels } from './render-labels';
 import ReplyCompose from './reply-composer';
 import { Separator } from '../ui/separator';
-import { useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { MailIframe } from './mail-iframe';
+import { useTranslations } from 'use-intl';
+import { useParams } from 'react-router';
 import { MailLabels } from './mail-list';
 import { FileText } from 'lucide-react';
 import { format, set } from 'date-fns';
 import { Button } from '../ui/button';
 import { useQueryState } from 'nuqs';
 import { Badge } from '../ui/badge';
-import Image from 'next/image';
 
 // Add formatFileSize utility function
 const formatFileSize = (size: number) => {

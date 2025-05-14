@@ -11,7 +11,6 @@ export function PixelatedBackground(props: SVGProps<SVGSVGElement>) {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...props}
     >
-      
       <g mask="url(#mask0_11_932)">
         <rect
           width="1438.5"

@@ -1,5 +1,3 @@
-'use client';
-
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { COOKIE_CATEGORIES, type CookieCategory } from '@/lib/cookies';
 import CookieUtils from '@/lib/cookie-utils';

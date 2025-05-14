@@ -4,7 +4,7 @@ import { useSearchValue } from '@/hooks/use-search-value';
 import { useTRPC } from '@/providers/query-provider';
 import { useSession } from '@/lib/auth-client';
 import { useAtom, useAtomValue } from 'jotai';
-import { useParams } from 'next/navigation';
+import { useParams } from 'react-router';
 import { useQueryState } from 'nuqs';
 import { useMemo } from 'react';
 

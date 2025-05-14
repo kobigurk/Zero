@@ -1,9 +1,6 @@
-import { ImageResponse } from 'next/og';
-import { env } from '@/lib/env';
+import { ImageResponse } from 'workers-og';
 
-export const runtime = 'edge';
-
-export async function GET() {
+export async function loader() {
   async function loadGoogleFont(font: string, weight: string) {
     const url = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&display=swap`;
     const css = await (await fetch(url)).text();
@@ -20,18 +17,10 @@ export async function GET() {
   }
 
   try {
-    const appUrl = env.NEXT_PUBLIC_APP_URL;
-    if (!appUrl) {
-      throw new Error('NEXT_PUBLIC_APP_URL is not defined');
-    }
-
-    const mailResponse = await fetch(new URL(`${appUrl}/white-icon.svg`));
-    if (!mailResponse.ok) {
-      throw new Error('Failed to fetch SVG');
-    }
-
-    const mailBuffer = await mailResponse.arrayBuffer();
-    const mailBase64 = btoa(String.fromCharCode(...new Uint8Array(mailBuffer)));
+    const mailBuffer = await fetch(
+      new URL(`${import.meta.env.VITE_PUBLIC_APP_URL}/white-icon.svg`),
+    ).then((res) => res.arrayBuffer());
+    const mailBase64 = Buffer.from(mailBuffer).toString('base64');
     const mail = `data:image/svg+xml;base64,${mailBase64}`;
 
     const fontWeight400 = await loadGoogleFont('Geist', '400');

@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Dialog,
   DialogContent,
@@ -24,8 +22,8 @@ import { Button } from '@/components/ui/button';
 import { useSession } from '@/lib/auth-client';
 import { Input } from '@/components/ui/input';
 import { AlertTriangle } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useNavigate } from 'react-router';
+import { useTranslations } from 'use-intl';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -42,7 +40,7 @@ const formSchema = z.object({
 function DeleteAccountDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations();
-  const router = useRouter();
+  const navigate = useNavigate();
   const trpc = useTRPC();
   const { refetch } = useSession();
   const { mutateAsync: deleteAccount, isPending } = useMutation(trpc.user.delete.mutationOptions());
@@ -63,7 +61,7 @@ function DeleteAccountDialog() {
         if (!success) return toast.error(message);
         refetch();
         toast.success('Account deleted successfully');
-        router.push('/');
+        navigate('/');
         setIsOpen(false);
       },
       onError: (error) => {

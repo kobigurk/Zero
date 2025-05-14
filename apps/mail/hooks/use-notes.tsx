@@ -1,7 +1,7 @@
 import { useTRPC } from '@/providers/query-provider';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from '@/lib/auth-client';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import type { Note } from '@/types';
 
 export const useThreadNotes = (threadId: string) => {

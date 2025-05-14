@@ -1,5 +1,3 @@
-'use client';
-
 import { SidebarToggle } from '@/components/ui/sidebar-toggle';
 import { AppSidebar } from '@/components/ui/app-sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';

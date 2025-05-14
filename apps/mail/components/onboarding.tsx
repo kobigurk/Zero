@@ -1,12 +1,7 @@
-'use client';
-
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useState, useEffect, useMemo } from 'react';
-import { useBilling } from '@/hooks/use-billing';
 import { Button } from '@/components/ui/button';
-import { useCustomer } from 'autumn-js/next';
 import confetti from 'canvas-confetti';
-import Image from 'next/image';
 
 const steps = [
   {
@@ -113,8 +108,8 @@ export function OnboardingDialog({
                           index === currentStep ? 'opacity-100' : 'opacity-0'
                         }`}
                       >
-                        <Image
-                          priority
+                        <img
+                          loading="eager"
                           width={500}
                           height={500}
                           src={step.video}

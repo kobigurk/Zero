@@ -1,12 +1,9 @@
-'use client';
-
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import Link from 'next/link';
 import { z } from 'zod';
 
 const formSchema = z.object({

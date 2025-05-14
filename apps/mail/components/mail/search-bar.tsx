@@ -3,7 +3,7 @@ import { useSearchValue } from '@/hooks/use-search-value';
 import { useState, useEffect, useCallback } from 'react';
 import { type DateRange } from 'react-day-picker';
 import { Input } from '@/components/ui/input';
-import { usePathname } from 'next/navigation';
+import { useLocation } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { Search, X } from 'lucide-react';
 import { format } from 'date-fns';
@@ -29,7 +29,8 @@ export function SearchBar() {
   // const [popoverOpen, setPopoverOpen] = useState(false);
   const [, setSearchValue] = useSearchValue();
   const [isSearching, setIsSearching] = useState(false);
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const form = useForm<SearchForm>({
     defaultValues: {

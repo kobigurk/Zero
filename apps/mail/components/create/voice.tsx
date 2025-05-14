@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useState, useMemo } from 'react';
 
 // ElevenLabs
@@ -132,7 +130,7 @@ const VoiceChat = ({ onClose }: VoiceChatProps) => {
       const emailContext = emailContent.join('\n\n');
 
       const conversationId = await conversation.startSession({
-        agentId: env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID,
+        agentId: import.meta.env.VITE_PUBLIC_ELEVENLABS_AGENT_ID!,
         dynamicVariables: {
           user_name: userName,
           email_context: emailContext,

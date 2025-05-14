@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+  - scripts/*
+catalog:
+  zod: "^3.24.4"
+  better-auth: "^1.2.8-beta.7"
+patchedDependencies:
+  novel: patches/novel.patch

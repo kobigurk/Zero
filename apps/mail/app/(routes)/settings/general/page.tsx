@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Form,
   FormControl,
@@ -16,23 +14,23 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { availableLocales, locales, type Locale } from '@/i18n/config';
 import { useForm, type ControllerRenderProps } from 'react-hook-form';
 import { userSettingsSchema } from '@zero/db/user_settings_default';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SettingsCard } from '@/components/settings/settings-card';
 import { useState, useEffect, useMemo, memo } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useTranslations, useLocale } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations, useLocale } from 'use-intl';
 import { useTRPC } from '@/providers/query-provider';
 import { getBrowserTimezone } from '@/lib/timezones';
 import { Textarea } from '@/components/ui/textarea';
 import { useSettings } from '@/hooks/use-settings';
 import { Globe, Clock, XIcon } from 'lucide-react';
+import { availableLocales } from '@/i18n/config';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { changeLocale } from '@/i18n/utils';
+import { useRevalidator } from 'react-router';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import * as z from 'zod';
@@ -123,6 +121,10 @@ export default function GeneralPage() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const { mutateAsync: saveUserSettings } = useMutation(trpc.settings.save.mutationOptions());
+  const { mutateAsync: setLocaleCookie } = useMutation(
+    trpc.cookiePreferences.setLocaleCookie.mutationOptions(),
+  );
+  const { revalidate } = useRevalidator();
 
   const form = useForm<z.infer<typeof userSettingsSchema>>({
     resolver: zodResolver(userSettingsSchema),
@@ -149,13 +151,13 @@ export default function GeneralPage() {
         if (!updater) return;
         return { settings: { ...updater.settings, ...values } };
       });
-      if (values.language !== locale) {
-        await changeLocale(values.language as Locale);
-        const localeName = new Intl.DisplayNames([values.language], { type: 'language' }).of(
-          values.language,
-        );
-        toast.success(t('common.settings.languageChanged', { locale: localeName }));
-      }
+
+      await setLocaleCookie({ locale: values.language });
+      const localeName = new Intl.DisplayNames([values.language], { type: 'language' }).of(
+        values.language,
+      );
+      toast.success(t('common.settings.languageChanged', { locale: localeName! }));
+      await revalidate();
 
       toast.success(t('common.settings.saved'));
     } catch (error) {

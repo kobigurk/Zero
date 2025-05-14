@@ -1,12 +1,12 @@
 export const Gauge = ({
   value,
-  size = "small",
+  size = 'small',
   showValue = true,
-  color = "text-[hsla(131,41%,46%,1)]",
-  bgcolor = "text-[#d1d1d1] dark:text-[#333]",
+  color = 'text-[hsla(131,41%,46%,1)]',
+  bgcolor = 'text-[#d1d1d1] dark:text-[#333]',
 }: {
   value: number;
-  size: "small" | "medium" | "large";
+  size: 'small' | 'medium' | 'large';
   showValue: boolean;
   color?: String;
   bgcolor?: String;
@@ -19,24 +19,24 @@ export const Gauge = ({
 
   const sizes = {
     small: {
-      width: "20",
-      height: "20",
-      textSize: "text-[8px]",
+      width: '20',
+      height: '20',
+      textSize: 'text-[8px]',
     },
     medium: {
-      width: "72",
-      height: "72",
-      textSize: "text-lg",
+      width: '72',
+      height: '72',
+      textSize: 'text-lg',
     },
     large: {
-      width: "144",
-      height: "144",
-      textSize: "text-3xl",
+      width: '144',
+      height: '144',
+      textSize: 'text-3xl',
     },
   };
 
   return (
-    <div className="flex flex-col items-center justify-center relative">
+    <div className="relative flex flex-col items-center justify-center">
       <svg
         fill="none"
         shapeRendering="crispEdges"
@@ -44,7 +44,7 @@ export const Gauge = ({
         width={sizes[size].width}
         viewBox="0 0 120 120"
         strokeWidth="2"
-        className="transform -rotate-90"
+        className="-rotate-90 transform"
       >
         <circle
           className={`${bgcolor}`}
@@ -70,12 +70,12 @@ export const Gauge = ({
           cy="60"
           style={{
             strokeDashoffset: strokeDashoffset,
-            transition: "stroke-dasharray 1s ease 0s,stroke 1s ease 0s",
+            transition: 'stroke-dasharray 1s ease 0s,stroke 1s ease 0s',
           }}
         />
       </svg>
       {showValue ? (
-        <div className="absolute flex opacity-0 animate-gauge_fadeIn">
+        <div className="animate-gauge_fadeIn absolute flex opacity-0">
           <p className={`text-gray-700 dark:text-gray-100 ${sizes[size].textSize}`}>{value}</p>
         </div>
       ) : null}

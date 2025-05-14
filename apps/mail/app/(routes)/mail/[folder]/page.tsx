@@ -1,32 +1,21 @@
 import { MailLayout } from '@/components/mail/mail';
 import { authProxy } from '@/lib/auth-proxy';
-import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
-
-interface MailPageProps {
-  params: Promise<{
-    folder: string;
-  }>;
-  searchParams: Promise<{
-    threadId: string;
-  }>;
-}
+import { useLoaderData } from 'react-router';
+import type { Route } from './+types/page';
 
 const ALLOWED_FOLDERS = ['inbox', 'draft', 'sent', 'spam', 'bin', 'archive'];
 
-export default async function MailPage({ params }: MailPageProps) {
-  const headersList = new Headers(Object.fromEntries(await (await headers()).entries()));
-  const session = await authProxy.api.getSession({ headers: headersList });
+export async function loader({ params, request }: Route.LoaderArgs) {
+  const session = await authProxy.api.getSession({ headers: request.headers });
+  if (!session) return Response.redirect('/login');
 
-  if (!session.user.id) {
-    redirect('/login');
-  }
+  return {
+    folder: params.folder,
+  };
+}
 
-  const { folder } = await params;
-
-  if (!ALLOWED_FOLDERS.includes(folder)) {
-    return <div>Invalid folder</div>;
-  }
-
+export default function MailPage() {
+  const { folder } = useLoaderData<typeof loader>();
+  if (!ALLOWED_FOLDERS.includes(folder)) return <div>Invalid folder</div>;
   return <MailLayout />;
 }

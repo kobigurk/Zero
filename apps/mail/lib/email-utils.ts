@@ -1,4 +1,4 @@
-import { parseFrom as _parseFrom, parseAddressList as _parseAddressList } from 'email-addresses';
+import * as emailAddresses from 'email-addresses';
 import type { Sender } from '@/types';
 import Color from 'color';
 
@@ -114,7 +114,7 @@ const FALLBACK_SENDER = {
 };
 
 export const parseFrom = (fromHeader: string) => {
-  const parsedSender = _parseFrom(fromHeader);
+  const parsedSender = emailAddresses.parseFrom(fromHeader);
   if (!parsedSender) return FALLBACK_SENDER;
 
   // Technically the "From" header can include multiple email addresses according to
@@ -137,7 +137,7 @@ export const parseFrom = (fromHeader: string) => {
 };
 
 export const parseAddressList = (header: string): Sender[] => {
-  const parsedAddressList = _parseAddressList(header);
+  const parsedAddressList = emailAddresses.parseAddressList(header);
   if (!parsedAddressList) return [FALLBACK_SENDER];
 
   return parsedAddressList?.flatMap((address) => {

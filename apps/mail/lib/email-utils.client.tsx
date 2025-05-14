@@ -1,11 +1,8 @@
-'use client';
-
-import { Html, Head, Body, Container, Section, Column, Row, render } from '@react-email/components';
+import { Html, Head, Body, Container, Section, Column, Row } from '@react-email/components';
 import { getListUnsubscribeAction } from '@/lib/email-utils';
 import { trpcClient } from '@/providers/query-provider';
+import { render } from '@react-email/render';
 import type { ParsedMessage } from '@/types';
-import { track } from '@vercel/analytics';
-import { env } from '@/lib/env';
 
 export const handleUnsubscribe = async ({ emailData }: { emailData: ParsedMessage }) => {
   try {
@@ -53,9 +50,9 @@ export const handleUnsubscribe = async ({ emailData }: { emailData: ParsedMessag
             });
             return true;
         }
-        track('Unsubscribe', {
-          domain: emailData.sender.email.split('@')?.[1] ?? 'unknown',
-        });
+        // track('Unsubscribe', {
+        //   domain: emailData.sender.email.split('@')?.[1] ?? 'unknown',
+        // });
       }
     }
   } catch (error) {
@@ -111,7 +108,7 @@ const forceExternalLinks = (html: string): string => {
 const getProxiedUrl = (url: string) => {
   if (url.startsWith('data:') || url.startsWith('blob:')) return url;
 
-  const proxyUrl = env.NEXT_PUBLIC_IMAGE_PROXY?.trim();
+  const proxyUrl = import.meta.env.VITE_PUBLIC_IMAGE_PROXY?.trim();
   if (!proxyUrl) return url;
 
   return proxyUrl + encodeURIComponent(url);

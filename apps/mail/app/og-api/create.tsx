@@ -1,16 +1,15 @@
-import { ImageResponse } from 'next/og';
+import type { Route } from './+types/create';
+import { ImageResponse } from 'workers-og';
 
-export const runtime = 'edge';
-
-export async function GET(request: Request) {
+export async function loader({ request }: Route.LoaderArgs) {
   // Get URL parameters
   const { searchParams } = new URL(request.url);
   const toParam = searchParams.get('to') || 'someone';
   const subjectParam = searchParams.get('subject') || '';
-  
+
   // Use the email directly
   const recipient = toParam;
-  
+
   // Load fonts
   async function loadGoogleFont(font: string, weight: string) {
     const url = `https://fonts.googleapis.com/css2?family=${font}:wght@${weight}&display=swap`;
@@ -32,7 +31,7 @@ export async function GET(request: Request) {
   const logoSvg = `<svg width="191" height="191" viewBox="0 0 191 191" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M38.125 190.625V152.5H0V38.125H38.125V0H152.5V38.125H190.625V152.5H152.5V190.625H38.125ZM38.125 114.375H76.25V150.975H152.5V76.25H114.375V114.375H76.25V76.25H114.375V39.65H38.125V114.375Z" fill="white"/>
   </svg>`;
-  
+
   const logoDataUrl = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString('base64')}`;
 
   const fontWeight400 = await loadGoogleFont('Geist', '400');
@@ -54,11 +53,10 @@ export async function GET(request: Request) {
               <span tw="text-[#A1A1A1] ml-3">{recipient}</span>
               <span tw="text-[#fff]">on Zero</span>
             </div>
-           
           </div>
 
           <div tw="text-[36px] text-center text-neutral-400 mt-10" style={{ fontFamily: 'light' }}>
-            {subjectParam 
+            {subjectParam
               ? `Subject: ${subjectParam.length > 50 ? subjectParam.substring(0, 47) + '...' : subjectParam}`
               : 'Compose a new email'}
           </div>

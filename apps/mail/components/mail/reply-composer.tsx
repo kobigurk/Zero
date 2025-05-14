@@ -1,5 +1,3 @@
-'use client';
-
 import { useEmailAliases } from '@/hooks/use-email-aliases';
 import { EmailComposer } from '../create/email-composer';
 import { useHotkeysContext } from 'react-hotkeys-hook';
@@ -10,8 +8,8 @@ import { useThread } from '@/hooks/use-threads';
 import { useSession } from '@/lib/auth-client';
 import { serializeFiles } from '@/lib/schemas';
 import { useDraft } from '@/hooks/use-drafts';
-import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'use-intl';
 import type { Sender } from '@/types';
 import { useQueryState } from 'nuqs';
 import { toast } from 'sonner';

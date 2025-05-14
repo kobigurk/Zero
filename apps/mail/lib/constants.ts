@@ -8,7 +8,7 @@ export const SIDEBAR_WIDTH = '14rem';
 export const SIDEBAR_WIDTH_MOBILE = '14rem';
 export const SIDEBAR_WIDTH_ICON = '3rem';
 export const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
-export const BASE_URL = env.NEXT_PUBLIC_APP_URL;
+export const BASE_URL = import.meta.env.VITE_PUBLIC_APP_URL;
 export const MAX_URL_LENGTH = 2000;
 export const CACHE_BURST_KEY = 'cache-burst:v0.0.2';
 

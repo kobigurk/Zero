@@ -2,15 +2,25 @@ import { HotkeyProviderWrapper } from '@/components/providers/hotkey-provider-wr
 import { OnboardingWrapper } from '@/components/onboarding';
 import { NotificationProvider } from '@/components/party';
 import { AppSidebar } from '@/components/ui/app-sidebar';
-import { headers } from 'next/headers';
-export default async function MailLayout({ children }: { children: React.ReactNode }) {
-  const headersList = await headers();
+import { Outlet, useLoaderData } from 'react-router';
+import type { Route } from './+types/layout';
+
+export async function loader({ request }: Route.LoaderArgs) {
+  return {
+    headers: Object.fromEntries(request.headers.entries()),
+  };
+}
+
+export default function MailLayout() {
+  const { headers } = useLoaderData<typeof loader>();
   return (
     <HotkeyProviderWrapper>
       <AppSidebar />
-      <div className="bg-lightBackground dark:bg-darkBackground w-full">{children}</div>
+      <div className="bg-lightBackground dark:bg-darkBackground w-full">
+        <Outlet />
+      </div>
       <OnboardingWrapper />
-      <NotificationProvider headers={Object.fromEntries(headersList.entries())} />
+      <NotificationProvider headers={headers} />
     </HotkeyProviderWrapper>
   );
 }

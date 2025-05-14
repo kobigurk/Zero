@@ -1,5 +1,3 @@
-'use client';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSearchValue } from '@/hooks/use-search-value';
 import { keyboardShortcuts } from '@/config/shortcuts';
@@ -12,7 +10,7 @@ import { useThreads } from '@/hooks/use-threads';
 import { cleanSearchValue } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { useStats } from '@/hooks/use-stats';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import { useQueryState } from 'nuqs';
 import { toast } from 'sonner';
 

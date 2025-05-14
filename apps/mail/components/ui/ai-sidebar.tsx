@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Dialog,
   DialogContent,
@@ -29,7 +27,7 @@ import { useTRPC } from '@/providers/query-provider';
 import { X, Paper } from '@/components/icons/icons';
 import { GitBranchPlus, Plus } from 'lucide-react';
 import { Tools } from '../../../server/src/types';
-import { useBilling } from '@/hooks/use-billing';
+// import { useBilling } from '@/hooks/use-billing';
 import { Button } from '@/components/ui/button';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useLabels } from '@/hooks/use-labels';
@@ -62,7 +60,7 @@ export function AISidebar({ className }: AISidebarProps) {
   const { open, setOpen } = useAISidebar();
   const [resetKey, setResetKey] = useState(0);
   const pathname = usePathname();
-  const { attach, customer, chatMessages, track, refetch: refetchBilling } = useBilling();
+  // const { attach, customer, chatMessages, track, refetch: refetchBilling } = useBilling();
   const queryClient = useQueryClient();
   const trpc = useTRPC();
   const [threadId] = useQueryState('threadId');
@@ -118,35 +116,41 @@ export function AISidebar({ className }: AISidebarProps) {
           );
           break;
       }
-      await track({ featureId: 'chat-messages', value: 1 });
-      await refetchBilling();
+      // await track({ featureId: 'chat-messages', value: 1 });
+      // await refetchBilling();
     },
   });
 
-  const isPro = useMemo(() => {
-    return (
-      customer &&
-      Array.isArray(customer.products) &&
-      customer.products.some(
-        (product: any) =>
-          product.id.includes('pro-example') || product.name.includes('pro-example'),
-      )
-    );
-  }, [customer]);
+  const isPro = useMemo(
+    () => {
+      return true;
+      // return (
+      //   customer &&
+      //   Array.isArray(customer.products) &&
+      //   customer.products.some(
+      //     (product: any) =>
+      //       product.id.includes('pro-example') || product.name.includes('pro-example'),
+      //   )
+      // );
+    },
+    [
+      // customer
+    ],
+  );
 
   const handleUpgrade = async () => {
-    if (attach) {
-      return attach({
-        productId: 'pro-example',
-        successUrl: `${window.location.origin}/mail/inbox?success=true`,
-      })
-        .catch((error: Error) => {
-          console.error('Failed to upgrade:', error);
-        })
-        .then(() => {
-          console.log('Upgraded successfully');
-        });
-    }
+    // if (attach) {
+    //   return attach({
+    //     productId: 'pro-example',
+    //     successUrl: `${window.location.origin}/mail/inbox?success=true`,
+    //   })
+    //     .catch((error: Error) => {
+    //       console.error('Failed to upgrade:', error);
+    //     })
+    //     .then(() => {
+    //       console.log('Upgraded successfully');
+    //     });
+    // }
   };
 
   useHotkeys('Meta+0', () => {
@@ -198,14 +202,16 @@ export function AISidebar({ className }: AISidebarProps) {
                         <TooltipTrigger asChild className="md:h-fit md:px-2">
                           <div>
                             <Gauge
-                              value={50 - chatMessages.remaining!}
+                              // value={50 - chatMessages.remaining!}
+                              value={50}
                               size="small"
                               showValue={true}
                             />
                           </div>
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>You've used {50 - chatMessages.remaining!} out of 50 chat messages.</p>
+                          {/* <p>You've used {50 - chatMessages.remaining!} out of 50 chat messages.</p> */}
+                          <p>You've used 50 out of 50 chat messages.</p>
                           <p className="mb-2">Upgrade for unlimited messages!</p>
                           <Button onClick={handleUpgrade} className="h-8 w-full">
                             Upgrade

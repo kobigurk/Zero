@@ -1,15 +1,14 @@
 import HomeContent from '@/components/home/HomeContent';
 import { authProxy } from '@/lib/auth-proxy';
-import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
+import type { Route } from './+types/page';
+import { redirect } from 'react-router';
 
-export default async function Home() {
-  const headersList = new Headers(Object.fromEntries(await (await headers()).entries()));
-  const session = await authProxy.api.getSession({ headers: headersList });
+export async function loader({ request }: Route.LoaderArgs) {
+  const session = await authProxy.api.getSession({ headers: request.headers });
+  if (session?.connectionId) throw redirect('/mail/inbox');
+  return null;
+}
 
-  if (session?.connectionId) {
-    redirect('/mail/inbox');
-  }
-
+export default function Home() {
   return <HomeContent />;
 }

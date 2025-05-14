@@ -1,5 +1,5 @@
 import { Archive, Copy, Maximize2, Minimize2, X, Reply, MoreVertical } from 'lucide-react';
-import { Separator } from '@radix-ui/react-separator';
+import { Separator } from '../ui/separator';
 import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';

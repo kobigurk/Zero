@@ -1,4 +1,3 @@
-'use client';
 import { TrackingCategory } from '@coinbase/cookie-manager';
 
 export type CookieCategory = 'necessary' | 'functional' | 'analytics' | 'marketing';

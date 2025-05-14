@@ -1,5 +1,3 @@
-'use client';
-
 import { keyboardShortcuts, type Shortcut } from '@/config/shortcuts';
 import { SettingsCard } from '@/components/settings/settings-card';
 import { formatDisplayKeys } from '@/lib/hotkeys/use-hotkey-utils';
@@ -9,7 +7,7 @@ import type { MessageKey } from '@/config/navigation';
 import { HotkeyRecorder } from './hotkey-recorder';
 import { Button } from '@/components/ui/button';
 import { useSession } from '@/lib/auth-client';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import { toast } from 'sonner';
 
 export default function ShortcutsPage() {

@@ -8,7 +8,7 @@ import { useTRPC } from '@/providers/query-provider';
 import { Markdown } from '@react-email/components';
 import { CurvedArrow, Stop } from '../icons/icons';
 import { Tools } from '../../../server/src/types';
-import { useBilling } from '@/hooks/use-billing';
+// import { useBilling } from '@/hooks/use-billing';
 import { TextShimmer } from '../ui/text-shimmer';
 import { useThread } from '@/hooks/use-threads';
 import { useLabels } from '@/hooks/use-labels';
@@ -172,7 +172,7 @@ export function AIChat({
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [threadId] = useQueryState('threadId');
-  const { attach, chatMessages } = useBilling();
+  // const { attach, chatMessages } = useBilling();
 
   const scrollToBottom = useCallback(() => {
     if (messagesEndRef.current) {
@@ -185,18 +185,18 @@ export function AIChat({
   }, [messages, scrollToBottom]);
 
   const handleUpgrade = async () => {
-    if (attach) {
-      return attach({
-        productId: 'pro-example',
-        successUrl: `${window.location.origin}/mail/inbox?success=true`,
-      })
-        .catch((error: Error) => {
-          console.error('Failed to upgrade:', error);
-        })
-        .then(() => {
-          console.log('Upgraded successfully');
-        });
-    }
+    // if (attach) {
+    //   return attach({
+    //     productId: 'pro-example',
+    //     successUrl: `${window.location.origin}/mail/inbox?success=true`,
+    //   })
+    //     .catch((error: Error) => {
+    //       console.error('Failed to upgrade:', error);
+    //     })
+    //     .then(() => {
+    //       console.log('Upgraded successfully');
+    //     });
+    // }
   };
 
   // Already defined above
@@ -205,7 +205,8 @@ export function AIChat({
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto" ref={messagesContainerRef}>
         <div className="min-h-full space-y-4 px-4 py-4">
-          {chatMessages && !chatMessages.enabled ? (
+          {/* {chatMessages && !chatMessages.enabled ? ( */}
+          {true ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <TextShimmer className="text-center text-xl font-medium">
                 Upgrade to Zero Pro for unlimited AI chats
@@ -305,7 +306,7 @@ export function AIChat({
                 <form id="ai-chat-form" onSubmit={handleSubmit} className="relative">
                   <Input
                     ref={inputRef}
-                    readOnly={!chatMessages.enabled}
+                    // readOnly={!chatMessages.enabled}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Ask AI to do anything..."
@@ -316,7 +317,7 @@ export function AIChat({
                       form="ai-chat-form"
                       type="submit"
                       className="absolute right-1 top-1/2 inline-flex h-6 -translate-y-1/2 cursor-pointer items-center justify-center gap-1.5 overflow-hidden rounded-lg"
-                      disabled={!input.trim() || !chatMessages.enabled}
+                      // disabled={!input.trim() || !chatMessages.enabled}
                     >
                       <div className="dark:bg[#141414] flex h-5 items-center justify-center gap-1 rounded-sm bg-black/10 px-1">
                         <CurvedArrow className="mt-1.5 h-4 w-4 fill-black dark:fill-[#929292]" />

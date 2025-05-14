@@ -1,4 +1,3 @@
-'use client';
 import { motion, type SpringOptions, useSpring, useTransform } from 'motion/react';
 import { useEffect } from 'react';
 import { cn } from '@/lib/utils';

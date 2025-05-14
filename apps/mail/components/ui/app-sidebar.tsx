@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Dialog,
   DialogClose,
@@ -19,7 +17,6 @@ import {
 } from '@/components/ui/sidebar';
 import { SquarePenIcon, type SquarePenIconHandle } from '../icons/animated/square-pen';
 import { navigationConfig, bottomNavItems } from '@/config/navigation';
-import { AutumnProvider, useAutumn } from 'autumn-js/next';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSidebar } from '@/components/ui/sidebar';
 import { CreateEmail } from '../create/create-email';
@@ -27,9 +24,9 @@ import { PencilCompose, X } from '../icons/icons';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useSession } from '@/lib/auth-client';
 import React, { useMemo, useRef } from 'react';
-import { usePathname } from 'next/navigation';
 import { useStats } from '@/hooks/use-stats';
-import { useTranslations } from 'next-intl';
+import { useLocation } from 'react-router';
+import { useTranslations } from 'use-intl';
 import { FOLDERS } from '@/lib/utils';
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
@@ -38,12 +35,12 @@ import { useQueryState } from 'nuqs';
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: stats } = useStats();
 
-  const pathname = usePathname();
+  const location = useLocation();
   const { data: session } = useSession();
   const { currentSection, navItems } = useMemo(() => {
     // Find which section we're in based on the pathname
     const section = Object.entries(navigationConfig).find(([, config]) =>
-      pathname.startsWith(config.path),
+      location.pathname.startsWith(config.path),
     );
 
     const currentSection = section?.[0] || 'mail';
@@ -68,7 +65,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         navItems: [],
       };
     }
-  }, [pathname, stats]);
+  }, [location.pathname, stats]);
 
   const showComposeButton = currentSection === 'mail';
   const { state } = useSidebar();
@@ -139,7 +136,7 @@ function ComposeButton() {
         setDraftId(null),
         setTo(null),
         setActiveReplyId(null),
-        setMode(null)
+        setMode(null),
       ]);
     } else {
       setDialogOpen('true');

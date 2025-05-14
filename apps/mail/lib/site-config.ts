@@ -1,11 +1,8 @@
-import { type Metadata } from 'next';
-import { env } from '@/lib/env';
-
 const TITLE = 'Zero';
 const DESCRIPTION =
   'Experience email the way you want with 0 - the first open source email app that puts your privacy and safety first.';
 
-export const siteConfig: Metadata = {
+export const siteConfig = {
   title: TITLE,
   description: DESCRIPTION,
   icons: {
@@ -18,7 +15,7 @@ export const siteConfig: Metadata = {
     description: DESCRIPTION,
     images: [
       {
-        url: `${env.NEXT_PUBLIC_APP_URL}/og-api/home`,
+        url: `${import.meta.env.VITE_PUBLIC_APP_URL}/og-api/home`,
         width: 1200,
         height: 630,
         alt: TITLE,
@@ -27,7 +24,7 @@ export const siteConfig: Metadata = {
   },
   category: 'Email Client',
   alternates: {
-    canonical: env.NEXT_PUBLIC_APP_URL,
+    canonical: import.meta.env.VITE_PUBLIC_APP_URL,
   },
   keywords: [
     'Mail',
@@ -51,5 +48,5 @@ export const siteConfig: Metadata = {
     'Email Service',
     'Web Application',
   ],
-  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL!),
+  metadataBase: new URL(import.meta.env.VITE_PUBLIC_APP_URL!),
 };

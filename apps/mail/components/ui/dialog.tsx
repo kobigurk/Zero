@@ -1,10 +1,7 @@
-'use client';
-
-import * as DialogPrimitive from '@radix-ui/react-dialog';
-import * as React from 'react';
-
+import { Dialog as DialogPrimitive } from 'radix-ui';
 import { X } from '../icons/icons';
 import { cn } from '@/lib/utils';
+import * as React from 'react';
 
 const Dialog = DialogPrimitive.Root;
 
@@ -103,6 +100,8 @@ const DialogDescription = React.forwardRef<
   />
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
+
+export type DialogProps = DialogPrimitive.DialogProps;
 
 export {
   Dialog,

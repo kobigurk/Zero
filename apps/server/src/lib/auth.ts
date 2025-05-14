@@ -133,7 +133,7 @@ export const createAuth = () => {
       sendOnSignUp: false,
       autoSignInAfterVerification: true,
       sendVerificationEmail: async ({ user, token }) => {
-        const verificationUrl = `${c.env.NEXT_PUBLIC_APP_URL}/api/auth/verify-email?token=${token}&callbackURL=/settings/connections`;
+        const verificationUrl = `${c.env.VITE_PUBLIC_APP_URL}/api/auth/verify-email?token=${token}&callbackURL=/settings/connections`;
 
         await resend().emails.send({
           from: '0.email <onboarding@0.email>',
@@ -216,8 +216,8 @@ const createAuthConfig = () => {
         domain: env.COOKIE_DOMAIN,
       },
     },
-    baseURL: env.NEXT_PUBLIC_BACKEND_URL,
-    trustedOrigins: [env.NEXT_PUBLIC_APP_URL, env.NEXT_PUBLIC_BACKEND_URL],
+    baseURL: env.VITE_PUBLIC_BACKEND_URL,
+    trustedOrigins: [env.VITE_PUBLIC_APP_URL, env.VITE_PUBLIC_BACKEND_URL],
     session: {
       cookieCache: {
         enabled: true,

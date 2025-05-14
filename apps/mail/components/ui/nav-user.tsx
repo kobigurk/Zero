@@ -1,5 +1,3 @@
-'use client';
-
 import {
   HelpCircle,
   LogIn,
@@ -25,7 +23,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CircleCheck, Danger, ThreeDots } from '../icons/icons';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { useConnections } from '@/hooks/use-connections';
 import { signOut, useSession } from '@/lib/auth-client';
 import { AddConnectionDialog } from '../connection/add';
@@ -33,26 +30,25 @@ import { useTRPC } from '@/providers/query-provider';
 import { useSidebar } from '@/components/ui/sidebar';
 import { useBrainState } from '@/hooks/use-summary';
 import { useThreads } from '@/hooks/use-threads';
-import { useBilling } from '@/hooks/use-billing';
+// import { useBilling } from '@/hooks/use-billing';
 import { SunIcon } from '../icons/animated/sun';
 import { useLabels } from '@/hooks/use-labels';
 import { clear as idbClear } from 'idb-keyval';
 import { Gauge } from '@/components/ui/gauge';
 import { useStats } from '@/hooks/use-stats';
-import { useCustomer } from 'autumn-js/next';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
+import { useTranslations } from 'use-intl';
 import { type IConnection } from '@/types';
 import { useTheme } from 'next-themes';
 import { Progress } from './progress';
 import { Button } from './button';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import Link from 'next/link';
 
 export function NavUser() {
   const { data: session, refetch } = useSession();
-  const router = useRouter();
+  const navigate = useNavigate();
   const { data, refetch: refetchConnections } = useConnections();
   const [isRendered, setIsRendered] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -65,9 +61,10 @@ export function NavUser() {
   const { mutateAsync: setDefaultConnection } = useMutation(
     trpc.connections.setDefault.mutationOptions(),
   );
-  const { openBillingPortal, customer: billingCustomer } = useBilling();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // const { openBillingPortal, customer: billingCustomer } = useBilling();
+  const location = useLocation();
+  const pathname = location.pathname;
+  const searchParams = new URLSearchParams();
   const queryClient = useQueryClient();
 
   const getSettingsHref = useCallback(() => {
@@ -133,16 +130,22 @@ export function NavUser() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
-  const isPro = useMemo(() => {
-    return (
-      billingCustomer &&
-      Array.isArray(billingCustomer.products) &&
-      billingCustomer.products.some(
-        (product: any) =>
-          product.id.includes('pro-example') || product.name.includes('pro-example'),
-      )
-    );
-  }, [billingCustomer]);
+  const isPro = useMemo(
+    () => {
+      return true;
+      // return (
+      //   billingCustomer &&
+      //   Array.isArray(billingCustomer.products) &&
+      //   billingCustomer.products.some(
+      //     (product: any) =>
+      //       product.id.includes('pro-example') || product.name.includes('pro-example'),
+      //   )
+      // );
+    },
+    [
+      // billingCustomer
+    ],
+  );
 
   if (!isRendered) return null;
   if (!session) return null;
@@ -461,14 +464,14 @@ export function NavUser() {
                   sideOffset={8}
                 >
                   <div className="space-y-1">
-                    {billingCustomer?.stripe_id ? (
+                    {/* {billingCustomer?.stripe_id ? (
                       <DropdownMenuItem onClick={openBillingPortal}>
                         <div className="flex items-center gap-2">
                           <BanknoteIcon size={16} className="opacity-60" />
                           <p className="text-[13px] opacity-60">Billing</p>
                         </div>
                       </DropdownMenuItem>
-                    ) : null}
+                    ) : null} */}
                     <DropdownMenuItem onClick={handleThemeToggle} className="cursor-pointer">
                       <div className="flex w-full items-center gap-2">
                         {theme === 'dark' ? (

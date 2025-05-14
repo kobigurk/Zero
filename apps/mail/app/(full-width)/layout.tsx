@@ -1,4 +1,5 @@
-'use client';
-export default function FullWidthLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+import { Outlet } from 'react-router';
+
+export default function FullWidthLayout() {
+  return <Outlet />;
 }

@@ -1,9 +1,7 @@
-'use client';
-
-import React, { useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
-import DOMPurify from 'dompurify';
 import { useImageLoading } from '@/hooks/use-image-loading';
+import React, { useEffect, useRef, useState } from 'react';
+import DOMPurify from 'dompurify';
+import { cn } from '@/lib/utils';
 
 interface SignaturePreviewProps {
   html: string;
@@ -14,18 +12,18 @@ interface SignaturePreviewProps {
 export function SignaturePreview({ html, className, style }: SignaturePreviewProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(100);
-  
+
   useEffect(() => {
     if (!iframeRef.current) return;
-    
+
     const iframe = iframeRef.current;
     let cleanupImageLoading: (() => void) | undefined;
-    
+
     const updateIframe = () => {
       try {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) return;
-        
+
         // Create and inject the content
         iframeDoc.open();
         const sanitizedHtml = DOMPurify.sanitize(html, {
@@ -59,7 +57,7 @@ export function SignaturePreview({ html, className, style }: SignaturePreviewPro
           </html>
         `);
         iframeDoc.close();
-        
+
         // Adjust height
         const adjustHeight = () => {
           const docHeight = iframeDoc.body.scrollHeight;
@@ -68,19 +66,19 @@ export function SignaturePreview({ html, className, style }: SignaturePreviewPro
             iframe.style.height = `${docHeight}px`;
           }
         };
-        
+
         // Set up image load listeners
         cleanupImageLoading = useImageLoading(iframeDoc, adjustHeight);
-        
+
         // Additional adjustment after everything is loaded
         setTimeout(adjustHeight, 200);
       } catch (error) {
         console.error('Error updating signature iframe:', error);
       }
     };
-    
+
     updateIframe();
-    
+
     // Reapply when html changes
     return () => {
       try {
@@ -90,7 +88,7 @@ export function SignaturePreview({ html, className, style }: SignaturePreviewPro
           if (typeof cleanupImageLoading === 'function') {
             cleanupImageLoading();
           }
-          
+
           iframeDoc.open();
           iframeDoc.write('');
           iframeDoc.close();
@@ -100,17 +98,17 @@ export function SignaturePreview({ html, className, style }: SignaturePreviewPro
       }
     };
   }, [html]);
-  
+
   return (
     <iframe
       ref={iframeRef}
       title="Signature Preview"
       sandbox="allow-same-origin allow-scripts allow-popups"
-      className={cn('w-full border-0 overflow-hidden', className)}
+      className={cn('w-full overflow-hidden border-0', className)}
       style={{
         height: `${height}px`,
         minHeight: '120px',
-        ...style
+        ...style,
       }}
     />
   );

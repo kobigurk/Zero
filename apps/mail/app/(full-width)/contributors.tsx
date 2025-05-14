@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Github,
   Star,
@@ -30,8 +28,6 @@ import { useEffect, useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import Image from 'next/image';
-import Link from 'next/link';
 
 interface Contributor {
   login: string;
@@ -381,16 +377,14 @@ export default function OpenPage() {
               <div className="flex items-center gap-2">
                 <a href="/">
                   <div className="relative h-8 w-8">
-                    <Image
+                    <img
                       src="/black-icon.svg"
                       alt="0.email Logo"
-                      fill
                       className="object-contain dark:hidden"
                     />
-                    <Image
+                    <img
                       src="/white-icon.svg"
                       alt="0.email Logo"
-                      fill
                       className="hidden object-contain dark:block"
                     />
                   </div>
@@ -696,24 +690,24 @@ export default function OpenPage() {
                     {specialRoles[member.login.toLowerCase()]?.role || 'Maintainer'}
                   </p>
                   <div className="mt-3 flex gap-2">
-                    <Link
+                    <a
                       href={`https://github.com/${member.login}`}
                       target="_blank"
                       className="rounded-md p-1 text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
                     >
                       <Github className="h-4 w-4" />
-                    </Link>
+                    </a>
                     {specialRoles[member.login.toLowerCase()]?.x && (
-                      <Link
+                      <a
                         href={`https://x.com/${specialRoles[member.login.toLowerCase()]?.x}`}
                         target="_blank"
                         className="rounded-md p-1 text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
                       >
                         <Twitter className="h-4 w-4" />
-                      </Link>
+                      </a>
                     )}
                     {specialRoles[member.login.toLowerCase()]?.website && (
-                      <Link
+                      <a
                         href={specialRoles[member.login.toLowerCase()]?.website || '#'}
                         target="_blank"
                         className="rounded-md p-1 text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
@@ -732,7 +726,7 @@ export default function OpenPage() {
                             d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
                           />
                         </svg>
-                      </Link>
+                      </a>
                     )}
                   </div>
                 </div>
@@ -789,7 +783,7 @@ export default function OpenPage() {
               <TabsContent value="grid">
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                   {filteredContributors?.map((contributor, index) => (
-                    <Link
+                    <a
                       key={contributor.login}
                       href={contributor.html_url}
                       target="_blank"
@@ -823,7 +817,7 @@ export default function OpenPage() {
                           </span>
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   ))}
                 </div>
               </TabsContent>
@@ -940,7 +934,7 @@ export default function OpenPage() {
                       asChild
                       className="relative overflow-hidden bg-neutral-900 text-white transition-all hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100"
                     >
-                      <Link
+                      <a
                         href={`https://github.com/${REPOSITORY}/blob/main/.github/CONTRIBUTING.md`}
                         target="_blank"
                       >
@@ -948,7 +942,7 @@ export default function OpenPage() {
                           <GitGraph className="mr-2 h-4 w-4" />
                           Start Contributing
                         </span>
-                      </Link>
+                      </a>
                     </Button>
                     <Button
                       asChild
@@ -1020,22 +1014,22 @@ export default function OpenPage() {
         </div>
 
         <div className="mb-6 mt-2 flex items-center justify-center gap-4">
-          <Link
+          <a
             href="https://discord.gg/BCFr6FFt"
             target="_blank"
             className="text-neutral-500 transition-colors hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
             aria-label="Join our Discord"
           >
             <Discord className="h-4 w-4" />
-          </Link>
-          <Link
+          </a>
+          <a
             href="https://x.com/zerodotemail"
             target="_blank"
             className="text-neutral-500 transition-colors hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
             aria-label="Follow us on X (Twitter)"
           >
             <Twitter className="h-4 w-4" />
-          </Link>
+          </a>
         </div>
       </div>
     </div>

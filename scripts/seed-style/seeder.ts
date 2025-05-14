@@ -10,7 +10,7 @@ import {
   optional,
 } from 'cmd-ts';
 import { input, select, confirm, number as numberPrompt } from '@inquirer/prompts';
-import { updateWritingStyleMatrix } from '@/services/writing-style-service';
+import { updateWritingStyleMatrix } from '../services/writing-style-service';
 import professionalEmails from './styles/professional_emails.json';
 import persuasiveEmails from './styles/persuasive_emails.json';
 import friendlyEmails from './styles/friendly_emails.json';

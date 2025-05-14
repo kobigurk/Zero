@@ -1,5 +1,3 @@
-'use client';
-
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,13 +12,11 @@ import { PixelatedBackground } from '@/components/home/pixelated-bg';
 import { CircleCheck, CircleX } from '@/components/icons/icons';
 import { TextShimmer } from '@/components/ui/text-shimmer';
 import { Separator } from '@/components/ui/separator';
-import { useBilling } from '@/hooks/use-billing';
+// import { useBilling } from '@/hooks/use-billing';
 import { Button } from '@/components/ui/button';
-import { useCustomer } from 'autumn-js/next';
 import { useState, useMemo } from 'react';
 import { Menu } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from 'react-router';
 
 const resources = [
   {
@@ -69,20 +65,20 @@ const aboutLinks = [
 
 export default function PricingPage() {
   const [open, setOpen] = useState(false);
-  const { attach } = useBilling();
+  // const { attach } = useBilling();
 
   const handleUpgrade = async () => {
-    if (attach) {
-      try {
-        await attach({
-          productId: 'pro-example',
-          successUrl: `${window.location.origin}/mail/inbox?success=true`,
-          authUrl: `${window.location.origin}/login?redirect=/pricing`,
-        });
-      } catch (error) {
-        console.error('Failed to upgrade:', error);
-      }
-    }
+    // if (attach) {
+    //   try {
+    //     await attach({
+    //       productId: 'pro-example',
+    //       successUrl: `${window.location.origin}/mail/inbox?success=true`,
+    //       authUrl: `${window.location.origin}/login?redirect=/pricing`,
+    //     });
+    //   } catch (error) {
+    //     console.error('Failed to upgrade:', error);
+    //   }
+    // }
   };
 
   return (
@@ -96,10 +92,12 @@ export default function PricingPage() {
       <header className="fixed z-50 hidden w-full items-center justify-center px-4 pt-6 md:flex">
         <nav className="border-input/50 flex w-full max-w-3xl items-center justify-between gap-2 rounded-xl border-t bg-[#1E1E1E] p-2 px-4">
           <div className="flex items-center gap-6">
-            <a href="/" className="relative bottom-1 cursor-pointer">
-              <Image src="white-icon.svg" alt="Zero Email" width={22} height={22} />
-              <span className="text-muted-foreground absolute -right-[-0.5px] text-[10px]">beta</span>
-            </a>
+            <Link to="/" className="relative bottom-1 cursor-pointer">
+              <img src="white-icon.svg" alt="Zero Email" width={22} height={22} />
+              <span className="text-muted-foreground absolute -right-[-0.5px] text-[10px]">
+                beta
+              </span>
+            </Link>
             <NavigationMenu>
               <NavigationMenuList className="gap-1">
                 <NavigationMenuItem>
@@ -165,7 +163,7 @@ export default function PricingPage() {
           <SheetContent side="left" className="w-[300px] bg-[#111111] sm:w-[400px]">
             <SheetHeader className="flex flex-row items-center justify-between">
               <SheetTitle>
-                <Image src="white-icon.svg" alt="Zero Email" width={22} height={22} />
+                <img src="white-icon.svg" alt="Zero Email" width={22} height={22} />
               </SheetTitle>
               <a href="/login">
                 <Button className="w-full">Sign in</Button>
@@ -189,11 +187,11 @@ export default function PricingPage() {
               {resources.map((resource) => (
                 <Link
                   key={resource.title}
-                  href={resource.href}
+                  to={resource.href}
                   className="flex items-center gap-2 font-medium"
                 >
                   {resource.platform && (
-                    <Image
+                    <img
                       src={`/${resource.platform}.svg`}
                       alt={resource.platform}
                       width={20}

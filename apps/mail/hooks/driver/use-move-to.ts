@@ -4,7 +4,7 @@ import { focusedIndexAtom } from '../use-mail-navigation';
 import { useMail } from '@/components/mail/use-mail';
 import { useThreads } from '@/hooks/use-threads';
 import { useStats } from '@/hooks/use-stats';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import { useQueryState } from 'nuqs';
 import { useState } from 'react';
 import { useAtom } from 'jotai';

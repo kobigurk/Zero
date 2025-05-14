@@ -1,12 +1,10 @@
-'use client';
-
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Github, ArrowLeft, Link2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/home/footer';
 import { createSectionId } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import React from 'react';
 
@@ -14,6 +12,7 @@ const LAST_UPDATED = 'February 13, 2025';
 
 export default function TermsOfService() {
   const { copiedValue: copiedSection, copyToClipboard } = useCopyToClipboard();
+  const navigate = useNavigate();
 
   const handleCopyLink = (sectionId: string) => {
     const url = `${window.location.origin}${window.location.pathname}#${sectionId}`;

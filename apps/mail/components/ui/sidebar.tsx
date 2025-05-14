@@ -1,5 +1,3 @@
-'use client';
-
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { type VariantProps, cva } from 'class-variance-authority';
@@ -10,9 +8,9 @@ import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Slot } from '@radix-ui/react-slot';
 import { Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Slot } from 'radix-ui';
 import * as React from 'react';
 
 const Sidebar = React.forwardRef<
@@ -290,7 +288,7 @@ const SidebarGroupLabel = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & { asChild?: boolean }
 >(({ className, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'div';
+  const Comp = asChild ? Slot.Slot : 'div';
 
   return (
     <Comp
@@ -311,7 +309,7 @@ const SidebarGroupAction = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<'button'> & { asChild?: boolean }
 >(({ className, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'button';
+  const Comp = asChild ? Slot.Slot : 'button';
 
   return (
     <Comp
@@ -408,7 +406,7 @@ const SidebarMenuButton = React.forwardRef<
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot : 'button';
+    const Comp = asChild ? Slot.Slot : 'button';
     const { isMobile, state } = useSidebar();
 
     const button = (
@@ -462,7 +460,7 @@ const SidebarMenuAction = React.forwardRef<
     showOnHover?: boolean;
   }
 >(({ className, asChild = false, showOnHover = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'button';
+  const Comp = asChild ? Slot.Slot : 'button';
 
   return (
     <Comp
@@ -568,7 +566,7 @@ const SidebarMenuSubButton = React.forwardRef<
     isActive?: boolean;
   }
 >(({ asChild = false, size = 'md', isActive, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'a';
+  const Comp = asChild ? Slot.Slot : 'a';
 
   return (
     <Comp

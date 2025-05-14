@@ -1,5 +1,5 @@
-// 'use client';
-// // DEPRECATED - 
+//
+// // DEPRECATED -
 // import {
 //   Form,
 //   FormControl,
@@ -10,7 +10,7 @@
 // } from '@/components/ui/form';
 // import { SettingsCard } from '@/components/settings/settings-card';
 // import { useState, useEffect, useRef } from 'react';
-// import { useTranslations } from 'next-intl';
+// import { useTranslations } from 'use-intl';
 // import { zodResolver } from '@hookform/resolvers/zod';
 // import { saveUserSettings } from '@/actions/settings';
 // import { useSettings } from '@/hooks/use-settings';
@@ -63,12 +63,12 @@
 //       // Create a temporary div to parse the HTML
 //       const div = document.createElement('div');
 //       div.innerHTML = html;
-      
+
 //       // Return as a document with proper structure preserving paragraphs
-//       // This is a basic implementation - for more complex conversions, consider using a 
+//       // This is a basic implementation - for more complex conversions, consider using a
 //       // dedicated HTML-to-ProseMirror conversion library
 //       const content: any[] = [];
-      
+
 //       // Process each child element to create proper paragraph nodes
 //       Array.from(div.childNodes).forEach(node => {
 //         if (node.nodeType === Node.TEXT_NODE) {
@@ -96,12 +96,12 @@
 //           });
 //         }
 //       });
-      
+
 //       // If no content was created, create a default empty paragraph
 //       if (content.length === 0) {
 //         content.push({ type: 'paragraph' });
 //       }
-      
+
 //       return {
 //         type: 'doc',
 //         content
@@ -122,11 +122,11 @@
 //           editorType: settings.signature.editorType || 'plain',
 //         },
 //       });
-      
+
 //       // Set the raw HTML in the state
 //       const signatureHtml = settings.signature.content || '--<br><br>Sent via <a href="https://0.email" target="_blank" style="color: #016FFE; text-decoration: none;">0.email</a>';
 //       setSignatureHtml(signatureHtml);
-      
+
 //       // Attempt to parse HTML to JSONContent for the rich editor
 //       // This is a simple approach - a more robust solution would use a proper HTML to ProseMirror converter
 //       setEditorContent(tryParseHtmlToContent(signatureHtml));
@@ -140,10 +140,10 @@
 
 //   async function onSubmit(values: z.infer<typeof formSchema>) {
 //     setIsSaving(true);
-    
+
 //     // Get the content based on editor type
 //     let contentToSave = signatureHtml;
-    
+
 //     // Sanitize HTML before saving
 //     const sanitizedHtml = DOMPurify.sanitize(contentToSave, {
 //       ADD_ATTR: ['target'],
@@ -185,7 +185,7 @@
 //     // Try to clean any malformed HTML
 //     const cleanedValue = decodeHtmlEntities(newValue);
 //     setSignatureHtml(cleanedValue);
-    
+
 //     // Update the form state
 //     form.setValue('signature.content', cleanedValue);
 //   };
@@ -193,21 +193,21 @@
 //   const handleEditorChange = (html: string) => {
 //     // Process the HTML coming from the rich editor
 //     setSignatureHtml(html);
-    
+
 //     // Update the form state
 //     form.setValue('signature.content', html);
 //   };
 
 //   const watchSignatureEnabled = form.watch('signature.enabled');
 //   const watchEditorType = form.watch('signature.editorType');
-  
+
 //   // Function to decode HTML entities
 //   const decodeHtmlEntities = (html: string): string => {
 //     const textarea = document.createElement('textarea');
 //     textarea.innerHTML = html;
 //     return textarea.value;
 //   };
-  
+
 //   // Handle switching between editor types
 //   useEffect(() => {
 //     // When switching editor modes
@@ -321,7 +321,7 @@
 //                 {/* Signature Editor - either plain text or rich editor */}
 //                 <div className="space-y-2">
 //                   <label className="text-sm font-medium">{t('pages.settings.signatures.signatureContent')}</label>
-                  
+
 //                   {watchEditorType === 'plain' ? (
 //                     <div className="mt-1">
 //                       <Textarea
@@ -335,10 +335,10 @@
 //                         {t('pages.settings.signatures.signatureContentHelp') || "You can use HTML to add formatting, links, and images to your signature."}
 //                       </p>
 //                       <div className="text-xs bg-muted/50 p-2 mt-1 rounded border">
-//                         <strong>Note:</strong> HTML tags are supported for formatting. 
-//                         For security reasons, script tags are not allowed. Common useful tags: 
-//                         <code className="mx-1 px-1 bg-muted rounded">&lt;a&gt;</code> for links, 
-//                         <code className="mx-1 px-1 bg-muted rounded">&lt;br&gt;</code> for line breaks, 
+//                         <strong>Note:</strong> HTML tags are supported for formatting.
+//                         For security reasons, script tags are not allowed. Common useful tags:
+//                         <code className="mx-1 px-1 bg-muted rounded">&lt;a&gt;</code> for links,
+//                         <code className="mx-1 px-1 bg-muted rounded">&lt;br&gt;</code> for line breaks,
 //                         <code className="mx-1 px-1 bg-muted rounded">&lt;b&gt;</code> for bold text.
 //                       </div>
 //                     </div>

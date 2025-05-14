@@ -6,7 +6,7 @@ import { getBrowserTimezone } from '@/lib/timezones';
 import { template } from '@/lib/email-utils.client';
 import { useMutation } from '@tanstack/react-query';
 import { useSettings } from '@/hooks/use-settings';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';

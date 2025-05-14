@@ -1,4 +1,3 @@
-'use client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTRPC } from '@/providers/query-provider';
 import { usePartySocket } from 'partysocket/react';
@@ -37,7 +36,7 @@ export const NotificationProvider = ({ headers }: { headers: Record<string, stri
     query: {
       token: headers['cookie'],
     },
-    host: env.NEXT_PUBLIC_BACKEND_URL,
+    host: import.meta.env.VITE_PUBLIC_BACKEND_URL!,
     onMessage: async (message: MessageEvent<string>) => {
       console.warn('party message', message);
       const [threadId, type] = message.data.split(':');

@@ -1,5 +1,3 @@
-'use client';
-
 import type { CookieCategory } from './cookies';
 
 interface CookieOptions {

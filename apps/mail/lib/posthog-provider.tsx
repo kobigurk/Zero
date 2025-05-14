@@ -1,5 +1,4 @@
 // app/providers.tsx
-'use client';
 
 import { PostHogProvider as PHProvider } from 'posthog-js/react';
 import { useSession } from '@/lib/auth-client';
@@ -11,10 +10,10 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
 
   useEffect(() => {
-    if (!env.NEXT_PUBLIC_POSTHOG_KEY) return;
+    if (!import.meta.env.VITE_PUBLIC_POSTHOG_KEY) return;
     try {
-      posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY as string, {
-        api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
+      posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string, {
+        api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
         capture_pageview: true,
       });
     } catch (error) {

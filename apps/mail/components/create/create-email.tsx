@@ -1,4 +1,3 @@
-'use client';
 import { Dialog, DialogClose } from '@/components/ui/dialog';
 import { useEmailAliases } from '@/hooks/use-email-aliases';
 import { useConnections } from '@/hooks/use-connections';
@@ -11,8 +10,8 @@ import { EmailComposer } from './email-composer';
 import { useSession } from '@/lib/auth-client';
 import { serializeFiles } from '@/lib/schemas';
 import { useDraft } from '@/hooks/use-drafts';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useNavigate } from 'react-router';
+import { useTranslations } from 'use-intl';
 import { useQueryState } from 'nuqs';
 import { X } from '../icons/icons';
 import posthog from 'posthog-js';
@@ -63,7 +62,7 @@ export function CreateEmail({
     error: draftError,
   } = useDraft(draftId ?? propDraftId ?? null);
   const t = useTranslations();
-  const router = useRouter();
+  const navigate = useNavigate();
   const { enableScope, disableScope } = useHotkeysContext();
   const [isDraftFailed, setIsDraftFailed] = useState(false);
   const trpc = useTRPC();

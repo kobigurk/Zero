@@ -1,5 +1,3 @@
-'use client';
-
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,9 +10,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
+import { Link } from 'react-router';
 import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 
 const resources = [
   {
@@ -71,7 +68,7 @@ export function Navbar() {
         <nav className="border-input/50 bg-popover flex w-full max-w-3xl items-center justify-between gap-2 rounded-xl border-t p-2 px-4">
           <div className="flex items-center gap-6">
             <a href="/" className="relative cursor-pointer">
-              <Image src="white-icon.svg" alt="Zero Email" width={22} height={22} />
+              <img src="white-icon.svg" alt="Zero Email" width={22} height={22} />
               <span className="absolute right-0 text-[10px]">beta</span>
             </a>
             <NavigationMenu>
@@ -132,7 +129,7 @@ export function Navbar() {
           <SheetContent side="left" className="w-[300px] bg-[#111111] sm:w-[400px]">
             <SheetHeader className="flex flex-row items-center justify-between">
               <SheetTitle>
-                <Image src="white-icon.svg" alt="Zero Email" width={22} height={22} />
+                <img src="white-icon.svg" alt="Zero Email" width={22} height={22} />
               </SheetTitle>
               <a href="/login">
                 <Button className="w-full">Sign in</Button>
@@ -156,11 +153,11 @@ export function Navbar() {
               {resources.map((resource) => (
                 <Link
                   key={resource.title}
-                  href={resource.href}
+                  to={resource.href}
                   className="flex items-center gap-2 font-medium"
                 >
                   {resource.platform && (
-                    <Image
+                    <img
                       src={`/${resource.platform}.svg`}
                       alt={resource.platform}
                       width={20}

@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Dialog,
   DialogContent,
@@ -32,7 +30,7 @@ import { GMAIL_COLORS } from '@/lib/constants';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import { useForm } from 'react-hook-form';
 import { Command } from 'lucide-react';
 import { COLORS } from './colors';

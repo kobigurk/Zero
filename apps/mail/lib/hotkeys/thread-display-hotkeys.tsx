@@ -1,13 +1,11 @@
-'use client';
-
+import { focusedIndexAtom } from '@/hooks/use-mail-navigation';
+import { useThread, useThreads } from '@/hooks/use-threads';
 import { keyboardShortcuts } from '@/config/shortcuts';
 import useMoveTo from '@/hooks/driver/use-move-to';
 import useDelete from '@/hooks/driver/use-delete';
 import { useShortcuts } from './use-hotkey-utils';
-import { useThread, useThreads } from '@/hooks/use-threads';
-import { useParams } from 'next/navigation';
+import { useParams } from 'react-router';
 import { useQueryState } from 'nuqs';
-import { focusedIndexAtom } from '@/hooks/use-mail-navigation';
 import { useAtom } from 'jotai';
 
 const closeView = (event: KeyboardEvent) => {

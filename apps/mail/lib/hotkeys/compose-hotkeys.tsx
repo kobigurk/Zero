@@ -1,5 +1,3 @@
-'use client';
-
 import { keyboardShortcuts } from '@/config/shortcuts';
 import { useShortcuts } from './use-hotkey-utils';
 import { useQueryState } from 'nuqs';

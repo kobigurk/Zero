@@ -1,19 +1,17 @@
-'use client';
-
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Github, Mail, ArrowLeft, Link2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/home/footer';
 import { createSectionId } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import React from 'react';
 
 const LAST_UPDATED = 'February 13, 2025';
 
 export default function PrivacyPolicy() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { copiedValue: copiedSection, copyToClipboard } = useCopyToClipboard();
 
   const handleCopyLink = (sectionId: string) => {

@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Dialog,
   DialogContent,
@@ -22,10 +20,8 @@ import { useThreads } from '@/hooks/use-threads';
 import { emailProviders } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from 'use-intl';
 import { useState } from 'react';
-import { env } from '@/lib/env';
-import Image from 'next/image';
 import { toast } from 'sonner';
 
 export default function ConnectionsPage() {
@@ -87,7 +83,7 @@ export default function ConnectionsPage() {
                 >
                   <div className="flex min-w-0 items-center gap-4">
                     {connection.picture ? (
-                      <Image
+                      <img
                         src={connection.picture}
                         alt=""
                         className="h-12 w-12 shrink-0 rounded-lg object-cover"
@@ -148,7 +144,7 @@ export default function ConnectionsPage() {
                           onClick={async () => {
                             await authClient.linkSocial({
                               provider: connection.providerId,
-                              callbackURL: `${env.NEXT_PUBLIC_APP_URL}/settings/connections`,
+                              callbackURL: `${window.location.origin}/settings/connections`,
                             });
                           }}
                         >
